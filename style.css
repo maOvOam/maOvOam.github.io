@@ -1,0 +1,287 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+}
+
+body {
+    background-color: #f5f7fa;
+    color: #333;
+    padding: 20px;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.page-header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #eee;
+}
+
+.page-header h1 {
+    font-size: 2.2rem;
+    color: #2d3748;
+    margin-bottom: 10px;
+}
+
+.page-header h1 i {
+    color: #f7b84b;
+    margin-right: 10px;
+}
+
+.subtitle {
+    font-size: 1rem;
+    color: #666;
+}
+
+.filter-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.filter-btn {
+    padding: 8px 20px;
+    border: none;
+    border-radius: 20px;
+    background-color: #fff;
+    color: #333;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.filter-btn i {
+    margin-right: 5px;
+}
+
+.filter-btn.active, .filter-btn:hover {
+    background-color: #f7b84b;
+    color: #fff;
+    box-shadow: 0 4px 8px rgba(247,184,75,0.3);
+}
+
+.calendar-container {
+    background: #fff;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+    margin-bottom: 30px;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.nav-btn {
+    background: #f7b84b;
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s;
+}
+
+.nav-btn:hover {
+    background: #e69c2f;
+}
+
+#current-month {
+    font-size: 1.5rem;
+    color: #2d3748;
+}
+
+/* --- 关键修改：让标题和日期使用同一个网格 --- */
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+}
+
+.day-header {
+    text-align: center;
+    font-weight: bold;
+    padding: 10px;
+    background: #f7b84b;
+    color: white;
+    border-radius: 8px;
+    font-size: 0.9rem;
+}
+
+.calendar-days {
+    display: contents; /* 关键：让日期格子直接使用上面的网格 */
+}
+
+.calendar-day {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 10px;
+    min-height: 100px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    margin-top: 10px;
+}
+
+.calendar-day:hover {
+    background: #f0f0f0;
+    transform: translateY(-2px);
+}
+
+.calendar-day.today {
+    background: #fff3cd;
+    border: 2px solid #ffc107;
+}
+
+.calendar-day.has-event {
+    background: #fff5f5;
+    border: 2px solid #f7b84b;
+}
+
+.day-number {
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 1rem;
+}
+
+.event-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    margin: 2px 0;
+}
+
+.event-dot.stage {
+    background: #f7b84b;
+}
+
+.event-dot.show {
+    background: #3b82f6;
+}
+
+.event-dot.live {
+    background: #ef4444;
+}
+
+.event-dot.material {
+    background: #10b981;
+}
+
+.event-dot.daily {
+    background: #8b5cf6;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 12px;
+    position: relative;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-event {
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 8px;
+}
+
+.modal-event.stage {
+    background: #fff5f5;
+    border-left: 4px solid #f7b84b;
+}
+
+.modal-event.show {
+    background: #eff6ff;
+    border-left: 4px solid #3b82f6;
+}
+
+.modal-event.live {
+    background: #fef2f2;
+    border-left: 4px solid #ef4444;
+}
+
+.modal-event.material {
+    background: #f0fdf4;
+    border-left: 4px solid #10b981;
+}
+
+.modal-event.daily {
+    background: #f8f4ff;
+    border-left: 4px solid #8b5cf6;
+}
+
+.modal-event h4 {
+    margin-bottom: 5px;
+    color: #2d3748;
+}
+
+.modal-event p {
+    color: #666;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .page-header h1 {
+        font-size: 1.8rem;
+    }
+    .calendar-day {
+        min-height: 80px;
+        padding: 8px;
+    }
+    .day-number {
+        font-size: 0.9rem;
+    }
+    .filter-btn {
+        padding: 6px 15px;
+        font-size: 0.9rem;
+    }
+}
