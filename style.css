@@ -1,287 +1,440 @@
+/* 全局样式 */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+    font-family: "微软雅黑", sans-serif;
 }
-
 body {
-    background-color: #f5f7fa;
-    color: #333;
-    padding: 20px;
-    line-height: 1.6;
-}
-
-.container {
+    background-color: #fff0f7;
+    padding: 15px;
     max-width: 1200px;
     margin: 0 auto;
 }
 
-.page-header {
+/* 顶部标题区：标题+副标题居中 */
+.header {
+    background-color: #b088c8;
+    color: #fff;
+    padding: 25px 20px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.header .title-group {
     text-align: center;
-    margin-bottom: 30px;
-    padding-bottom: 20px;
-    border-bottom: 2px solid #eee;
+    width: 100%;
+}
+.header .title {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+.header .tip {
+    font-size: 14px;
+    opacity: 0.9;
+}
+.header .date-selector {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+.header .date-selector select, .date-selector-pc select {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 8px;
+    background-color: #fff;
+    color: #6a4c93;
+    font-size: 14px;
+    cursor: pointer;
+}
+.header .date-selector select:disabled, .date-selector-pc select:disabled {
+    background-color: #f0e6ff;
+    color: #b088c8;
+    cursor: not-allowed;
 }
 
-.page-header h1 {
-    font-size: 2.2rem;
-    color: #2d3748;
-    margin-bottom: 10px;
+/* PC端专属：分类+日期组合栏 */
+.category-date-wrap {
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
 }
-
-.page-header h1 i {
-    color: #f7b84b;
-    margin-right: 10px;
-}
-
-.subtitle {
-    font-size: 1rem;
-    color: #666;
-}
-
-.filter-buttons {
+.category-tabs {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
     justify-content: center;
-    margin-bottom: 30px;
+    margin-bottom: 15px;
 }
-
-.filter-btn {
-    padding: 8px 20px;
-    border: none;
+.category-tabs .tab {
+    padding: 8px 16px;
     border-radius: 20px;
-    background-color: #fff;
-    color: #333;
-    font-size: 0.95rem;
+    font-size: 14px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    white-space: nowrap;
+    transition: all 0.2s ease;
+    color: #fff !important;
 }
+/* 分类标签颜色匹配 */
+.category-tabs .tab[data-target="全部动态"] { background-color: #b088c8; }
+.category-tabs .tab[data-target="全部动态"].active { background-color: #c9a8d8; }
+.category-tabs .tab[data-target="舞台"] { background-color: #ff6b8b; }
+.category-tabs .tab[data-target="舞台"].active { background-color: #ff9aa8; }
+.category-tabs .tab[data-target="打歌"] { background-color: #ff7d00; }
+.category-tabs .tab[data-target="打歌"].active { background-color: #ff9f33; }
+.category-tabs .tab[data-target="综艺"] { background-color: #7e57c2; }
+.category-tabs .tab[data-target="综艺"].active { background-color: #9c7ed2; }
+.category-tabs .tab[data-target="物料"] { background-color: #66bb6a; }
+.category-tabs .tab[data-target="物料"].active { background-color: #8ed191; }
+.category-tabs .tab[data-target="直播"] { background-color: #ef5350; }
+.category-tabs .tab[data-target="直播"].active { background-color: #f47775; }
+.category-tabs .tab[data-target="回归日程"] { background-color: #42a5f5; }
+.category-tabs .tab[data-target="回归日程"].active { background-color: #6fc3f7; }
+.category-tabs .tab[data-target="猫言猫语"] { background-color: #ab47bc; }
+.category-tabs .tab[data-target="猫言猫语"].active { background-color: #c26ed3; }
 
-.filter-btn i {
-    margin-right: 5px;
-}
-
-.filter-btn.active, .filter-btn:hover {
-    background-color: #f7b84b;
-    color: #fff;
-    box-shadow: 0 4px 8px rgba(247,184,75,0.3);
-}
-
-.calendar-container {
-    background: #fff;
-    border-radius: 12px;
-    padding: 25px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-    margin-bottom: 30px;
-}
-
-.calendar-header {
+/* 日历导航栏 */
+.calendar-nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    padding: 10px 15px;
+    background-color: #f8e2f1;
+    border-radius: 8px;
+    margin-bottom: 10px;
 }
-
-.nav-btn {
-    background: #f7b84b;
-    color: white;
+.calendar-nav .nav-btn {
+    width: 36px;
+    height: 36px;
     border: none;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
+    border-radius: 4px;
+    background-color: #b088c8;
+    color: #fff;
+    font-size: 16px;
     cursor: pointer;
-    font-size: 1.2rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.3s;
+    transition: background-color 0.2s ease;
+}
+.calendar-nav .nav-btn:hover {
+    background-color: #9a73b0;
+}
+.calendar-nav .month-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #6a4c93;
 }
 
-.nav-btn:hover {
-    background: #e69c2f;
-}
-
-#current-month {
-    font-size: 1.5rem;
-    color: #2d3748;
-}
-
-/* --- 关键修改：让标题和日期使用同一个网格 --- */
+/* 日历网格 */
 .calendar-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 10px;
+    gap: 4px;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
 }
-
-.day-header {
+.calendar-grid .weekday {
+    background-color: #ffd700;
+    color: #333;
+    padding: 8px 0;
     text-align: center;
-    font-weight: bold;
-    padding: 10px;
-    background: #f7b84b;
-    color: white;
-    border-radius: 8px;
-    font-size: 0.9rem;
+    font-size: 14px;
+    font-weight: 600;
 }
-
-.calendar-days {
-    display: contents; /* 关键：让日期格子直接使用上面的网格 */
-}
-
-.calendar-day {
-    background: #f8f9fa;
-    border-radius: 8px;
-    padding: 10px;
-    min-height: 100px;
-    cursor: pointer;
-    transition: all 0.3s ease;
+.calendar-grid .day-cell {
+    min-height: 80px;
+    padding: 6px;
+    border: 1px solid #f0e6ff;
     position: relative;
-    margin-top: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
 }
-
-.calendar-day:hover {
-    background: #f0f0f0;
-    transform: translateY(-2px);
+.calendar-grid .day-cell.today {
+    background-color: #ffe6f2;
+    border-color: #b088c8;
 }
-
-.calendar-day.today {
-    background: #fff3cd;
-    border: 2px solid #ffc107;
+.calendar-grid .day-cell.empty {
+    background-color: #faf5ff;
+    border-color: #f0e6ff;
+    cursor: default;
 }
-
-.calendar-day.has-event {
-    background: #fff5f5;
-    border: 2px solid #f7b84b;
+.calendar-grid .day-cell:not(.empty):hover {
+    background-color: #f8e2f1;
 }
-
-.day-number {
-    font-weight: bold;
-    margin-bottom: 5px;
-    font-size: 1rem;
+.calendar-grid .day-number {
+    font-size: 14px;
+    font-weight: 600;
+    color: #6a4c93;
+    margin-bottom: 4px;
 }
-
-.event-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    margin: 2px 0;
-}
-
-.event-dot.stage {
-    background: #f7b84b;
-}
-
-.event-dot.show {
-    background: #3b82f6;
-}
-
-.event-dot.live {
-    background: #ef4444;
-}
-
-.event-dot.material {
-    background: #10b981;
-}
-
-.event-dot.daily {
-    background: #8b5cf6;
-}
-
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0,0,0,0.4);
-}
-
-.modal-content {
-    background-color: #fefefe;
-    margin: 15% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    max-width: 500px;
+.event-tag {
+    display: inline-block;
+    padding: 4px 12px;
     border-radius: 12px;
-    position: relative;
-}
-
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
+    font-size: 12px;
     font-weight: bold;
+    color: #fff;
+    margin-bottom: 8px;
+}
+.event-tag.舞台 { background-color: #ff6b8b; }
+.event-tag.直播 { background-color: #ef5350; }
+.event-tag.猫言猫语 { background-color: #ab47bc; }
+.event-tag.物料 { background-color: #66bb6a; }
+.event-tag.打歌 { background-color: #ff7d00; }
+.event-tag.综艺 { background-color: #7e57c2; }
+.event-tag.回归日程 { background-color: #42a5f5; }
+
+/* 行程展示面板 */
+.events-panel {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 15px;
+    margin-top: 15px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    display: none;
+}
+.events-panel.active {
+    display: block;
+}
+.events-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #f0e6ff;
+}
+.events-header h3 {
+    font-size: 18px;
+    font-weight: bold;
+    color: #6a4c93;
+}
+.close-events {
+    font-size: 20px;
     cursor: pointer;
+    color: #999;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.2s ease;
 }
-
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.modal-event {
-    padding: 10px;
-    margin: 10px 0;
-    border-radius: 8px;
-}
-
-.modal-event.stage {
-    background: #fff5f5;
-    border-left: 4px solid #f7b84b;
-}
-
-.modal-event.show {
-    background: #eff6ff;
-    border-left: 4px solid #3b82f6;
-}
-
-.modal-event.live {
-    background: #fef2f2;
-    border-left: 4px solid #ef4444;
-}
-
-.modal-event.material {
-    background: #f0fdf4;
-    border-left: 4px solid #10b981;
-}
-
-.modal-event.daily {
-    background: #f8f4ff;
-    border-left: 4px solid #8b5cf6;
-}
-
-.modal-event h4 {
-    margin-bottom: 5px;
-    color: #2d3748;
-}
-
-.modal-event p {
+.close-events:hover {
+    background-color: #f5f5f5;
     color: #666;
-    font-size: 0.9rem;
-    margin: 0;
 }
 
+/* PC端行程卡片样式 */
+.event-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    margin-bottom: 10px;
+    border-radius: 20px;
+    color: #fff;
+    transition: transform 0.2s ease;
+}
+.event-card:hover {
+    transform: translateX(5px);
+}
+.event-card-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+}
+.event-card-right {
+    width: 80px; /* 固定宽度，和卡片高度匹配 */
+    height: 80px; /* 固定高度 */
+    overflow: hidden; /* 防止图片溢出 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.event-card-right img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 让图片适配容器，不会变形/溢出 */
+}
+.event-time-badge {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+.event-card-content {
+    flex: 1;
+}
+.event-card-title {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 2px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.event-card-title .small-tag {
+    padding: 2px 6px;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: bold;
+    background-color: rgba(255, 255, 255, 0.2);
+}
+.event-card-title a {
+    color: #fff;
+    text-decoration: none;
+}
+.event-card-desc {
+    font-size: 12px;
+    opacity: 0.9;
+}
+.event-card-right img {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+/* ========== PC端布局适配 ========== */
+@media (min-width: 768px) {
+    .header .date-selector {
+        display: none;
+    }
+    .category-date-wrap {
+        display: flex;
+    }
+    .category-tabs {
+        justify-content: flex-start;
+        margin-bottom: 0;
+        flex: 1;
+    }
+}
+
+/* ========== 手机端专属样式 ========== */
 @media (max-width: 768px) {
-    .page-header h1 {
-        font-size: 1.8rem;
+    /* 日历优化 */
+    .calendar-grid .day-cell {
+        min-height: 40px;
+        padding: 4px;
     }
-    .calendar-day {
-        min-height: 80px;
-        padding: 8px;
+    .calendar-grid .day-number {
+        font-size: 12px;
+        margin-bottom: 2px;
     }
-    .day-number {
-        font-size: 0.9rem;
+    .event-tag {
+        padding: 0;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        font-size: 0;
+        margin-bottom: 4px;
     }
-    .filter-btn {
-        padding: 6px 15px;
-        font-size: 0.9rem;
+    .calendar-grid .weekday {
+        font-size: 12px;
+        padding: 6px 0;
+    }
+
+    /* 行程卡片优化 */
+    .event-card-left-mobile {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex: 1;
+    }
+    .event-card-right-mobile {
+        width: 60px; /* 固定宽度 */
+        height: 60px; /* 固定高度 */
+        overflow: hidden; /* 溢出部分隐藏 */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    }
+    .event-time-badge-mobile {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 3px;
+        flex-shrink: 0;
+    }
+    .small-tag-mobile {
+        padding: 1px 4px;
+        border-radius: 4px;
+        font-size: 9px;
+        font-weight: bold;
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+    .day-badge-mobile {
+        background-color: rgba(255, 255, 255, 0.2);
+        color: #fff;
+        border-radius: 50%;
+        width: 35px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        font-weight: bold;
+    }
+    .event-card-content-mobile {
+        flex: 1;
+    }
+    .event-card-title-mobile {
+        font-size: 12px;
+        font-weight: bold;
+        margin-bottom: 1px;
+        line-height: 1.2;
+    }
+    .event-card-desc-mobile {
+        font-size: 10px;
+        opacity: 0.9;
+        line-height: 1.2;
+    }
+    .event-card-right-mobile img {
+        width: 60px;
+        height: 60px;
+        border-radius: 8px;
+        object-fit: cover;
+    }
+
+    /* 其他适配 */
+    .events-header h3 {
+        font-size: 16px;
+    }
+    .category-tabs .tab {
+        font-size: 13px;
+        padding: 6px 14px;
+    }
+
+/* 超小屏适配 */
+@media (max-width: 480px) {
+    .header .title {
+        font-size: 20px;
+    }
+    .calendar-grid .day-cell {
+        min-height: 35px;
+    }
+    .event-tag {
+        width: 7px;
+        height: 7px;
+    }
+    .event-card {
+        padding: 10px 12px;
     }
 }

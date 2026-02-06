@@ -3,53 +3,208 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>贺鑫隆 行程日历</title>
-    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>⭐贺鑫隆动态日历⭐</title>
     <link rel="stylesheet" href="style.css">
+    <!-- 手机端分类专属样式：完全匹配PC端 -->
+    <style>
+        /* 手机端分类标签样式：完全匹配PC端 */
+        .mobile-category-tabs {
+            display: flex;
+            overflow-x: auto;
+            white-space: nowrap;
+            padding: 10px 15px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #eee;
+            gap: 8px;
+            margin: 0;
+        }
+        .mobile-category-tabs .tab {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+            color: #fff !important;
+        }
+        /* 每个分类标签的背景色，和PC端完全一致 */
+        .mobile-category-tabs .tab[data-target="全部动态"] { background-color: #b088c8; }
+        .mobile-category-tabs .tab[data-target="全部动态"].active { background-color: #c9a8d8; }
+        .mobile-category-tabs .tab[data-target="舞台"] { background-color: #ff6b8b; }
+        .mobile-category-tabs .tab[data-target="舞台"].active { background-color: #ff9aa8; }
+        .mobile-category-tabs .tab[data-target="打歌"] { background-color: #ff7d00; }
+        .mobile-category-tabs .tab[data-target="打歌"].active { background-color: #ff9f33; }
+        .mobile-category-tabs .tab[data-target="综艺"] { background-color: #7e57c2; }
+        .mobile-category-tabs .tab[data-target="综艺"].active { background-color: #9c7ed2; }
+        .mobile-category-tabs .tab[data-target="物料"] { background-color: #66bb6a; }
+        .mobile-category-tabs .tab[data-target="物料"].active { background-color: #8ed191; }
+        .mobile-category-tabs .tab[data-target="直播"] { background-color: #ef5350; }
+        .mobile-category-tabs .tab[data-target="直播"].active { background-color: #f47775; }
+        .mobile-category-tabs .tab[data-target="回归日程"] { background-color: #42a5f5; }
+        .mobile-category-tabs .tab[data-target="回归日程"].active { background-color: #6fc3f7; }
+        .mobile-category-tabs .tab[data-target="猫言猫语"] { background-color: #ab47bc; }
+        .mobile-category-tabs .tab[data-target="猫言猫语"].active { background-color: #c26ed3; }
+
+        /* 隐藏滚动条，保留滑动功能 */
+        .mobile-category-tabs::-webkit-scrollbar {
+            display: none;
+        }
+        /* PC端隐藏手机分类，手机端隐藏PC分类 */
+        @media (min-width: 768px) {
+            .mobile-category-tabs {
+                display: none;
+            }
+        }
+        @media (max-width: 767px) {
+            .category-date-wrap {
+                display: none;
+            }
+        }
+
+        /* 图片预览弹窗样式补充（确保交互正常） */
+        #imgPreviewModal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0,0,0,0.85);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        #previewImg {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            cursor: pointer;
+        }
+        #imgPreviewModal .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: #fff;
+            font-size: 36px;
+            font-weight: bold;
+            cursor: pointer;
+            user-select: none;
+        }
+        #imgPreviewModal .prev-btn {
+            position: absolute;
+            left: 20px;
+            color: #fff;
+            font-size: 48px;
+            font-weight: bold;
+            cursor: pointer;
+            user-select: none;
+        }
+        #imgPreviewModal .next-btn {
+            position: absolute;
+            right: 20px;
+            color: #fff;
+            font-size: 48px;
+            font-weight: bold;
+            cursor: pointer;
+            user-select: none;
+        }
+        /* 弹窗按钮hover效果 */
+        #imgPreviewModal .close-btn:hover,
+        #imgPreviewModal .prev-btn:hover,
+        #imgPreviewModal .next-btn:hover {
+            color: #ccc;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <header class="page-header">
-            <h1><i class="fas fa-star"></i> 贺鑫隆 行程日历</h1>
-            <p class="subtitle">按日期浏览，一目了然</p>
-        </header>
-
-        <div class="filter-buttons">
-            <button class="filter-btn active" data-type="all">全部行程</button>
-            <button class="filter-btn" data-type="stage"><i class="fas fa-microphone"></i> 舞台</button>
-            <button class="filter-btn" data-type="show"><i class="fas fa-tv"></i> 综艺</button>
-            <button class="filter-btn" data-type="live"><i class="fas fa-video"></i> 直播</button>
-            <button class="filter-btn" data-type="material"><i class="fas fa-image"></i> 物料</button>
-            <button class="filter-btn" data-type="daily"><i class="fas fa-coffee"></i> 日常</button>
+    <!-- 顶部标题区：完全保留原有代码 -->
+    <div class="header">
+        <div class="title-group">
+            <div class="title">⭐贺鑫隆动态日历⭐</div>
+            <div class="tip">点击文字即可跳转，跳转不了请私信我捉虫</div>
         </div>
-
-        <div class="calendar-container">
-            <div class="calendar-header">
-                <button id="prev-month" class="nav-btn"><i class="fas fa-chevron-left"></i></button>
-                <h2 id="current-month">2026年2月</h2>
-                <button id="next-month" class="nav-btn"><i class="fas fa-chevron-right"></i></button>
-            </div>
-            <div class="calendar-grid">
-                <div class="day-header">一</div>
-                <div class="day-header">二</div>
-                <div class="day-header">三</div>
-                <div class="day-header">四</div>
-                <div class="day-header">五</div>
-                <div class="day-header">六</div>
-                <div class="day-header">日</div>
-                <div id="calendar-days" class="calendar-days"></div>
-            </div>
-        </div>
-
-        <div id="event-modal" class="modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <h3 id="modal-title">行程详情</h3>
-                <div id="modal-events"></div>
-            </div>
+        <div class="date-selector">
+            <select id="yearSelect">
+                <option value="2025">2025年</option>
+                <option value="2026" selected>2026年</option>
+            </select>
+            <select id="monthSelect">
+                <option value="" selected>未选择</option>
+            </select>
+            <select id="daySelect">
+                <option value="" selected>未选择</option>
+            </select>
         </div>
     </div>
 
+    <!-- 手机端分类标签栏 -->
+    <div class="mobile-category-tabs">
+        <div class="tab active" data-target="全部动态">全部动态</div>
+        <div class="tab" data-target="舞台">舞台</div>
+        <div class="tab" data-target="打歌">打歌</div>
+        <div class="tab" data-target="综艺">综艺</div>
+        <div class="tab" data-target="物料">物料</div>
+        <div class="tab" data-target="直播">直播</div>
+        <div class="tab" data-target="回归日程">回归日程</div>
+        <div class="tab" data-target="猫言猫语">猫言猫语</div>
+    </div>
+
+    <!-- PC端专属：分类+日期同行布局 -->
+    <div class="category-date-wrap">
+        <div class="category-tabs">
+            <div class="tab active" data-target="全部动态">全部动态</div>
+            <div class="tab" data-target="舞台">舞台</div>
+            <div class="tab" data-target="打歌">打歌</div>
+            <div class="tab" data-target="综艺">综艺</div>
+            <div class="tab" data-target="物料">物料</div>
+            <div class="tab" data-target="直播">直播</div>
+            <div class="tab" data-target="回归日程">回归日程</div>
+            <div class="tab" data-target="猫言猫语">猫言猫语</div>
+        </div>
+        <div class="date-selector-pc">
+            <select id="yearSelect-pc">
+                <option value="2025">2025年</option>
+                <option value="2026" selected>2026年</option>
+            </select>
+            <select id="monthSelect-pc">
+                <option value="" selected>未选择</option>
+            </select>
+            <select id="daySelect-pc">
+                <option value="" selected>未选择</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- 日历导航栏：完全保留原有代码 -->
+    <div class="calendar-nav" style="display: flex !important;">
+        <button class="nav-btn" onclick="changeMonth(-1)">&lt;</button>
+        <div class="month-title">2026年</div>
+        <button class="nav-btn" onclick="changeMonth(1)">&gt;</button>
+    </div>
+
+    <!-- 日历网格：完全保留原有代码 -->
+    <div class="calendar-grid" style="display: grid !important;">
+        <div class="weekday">日</div>
+        <div class="weekday">一</div>
+        <div class="weekday">二</div>
+        <div class="weekday">三</div>
+        <div class="weekday">四</div>
+        <div class="weekday">五</div>
+        <div class="weekday">六</div>
+        <!-- 日期单元格由JS自动生成 -->
+    </div>
+
+    <!-- 行程展示面板：完全保留原有代码 -->
+    <div class="events-panel">
+        <div class="events-header">
+            <h3 id="eventsDateTitle">2026年 · 全部动态</h3>
+            <div class="close-events" onclick="closeEventsPanel()">×</div>
+        </div>
+        <div id="eventsList"></div>
+    </div>
+
+    <!-- 引入JS文件 -->
     <script src="script.js"></script>
+    </script>
 </body>
 </html>
