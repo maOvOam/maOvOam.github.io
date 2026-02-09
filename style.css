@@ -93,6 +93,8 @@ body {
 .category-tabs .tab[data-target="综艺"].active { background-color: #9c7ed2; }
 .category-tabs .tab[data-target="物料"] { background-color: #66bb6a; }
 .category-tabs .tab[data-target="物料"].active { background-color: #8ed191; }
+.category-tabs .tab[data-target="cha"] { background-color: #F7B2B2; }
+.category-tabs .tab[data-target="cha"].active { background-color: #F7B2B2; }
 .category-tabs .tab[data-target="直播"] { background-color: #ef5350; }
 .category-tabs .tab[data-target="直播"].active { background-color: #f47775; }
 .category-tabs .tab[data-target="回归日程"] { background-color: #42a5f5; }
@@ -189,6 +191,7 @@ body {
 .event-tag.打歌 { background-color: #ff7d00; }
 .event-tag.综艺 { background-color: #7e57c2; }
 .event-tag.回归日程 { background-color: #42a5f5; }
+.event-tag.cha { background-color: #F7B2B2; }
 
 /* 行程展示面板 */
 .events-panel {
@@ -407,11 +410,13 @@ body {
         line-height: 1.2;
     }
     .event-card-right-mobile img {
-        width: 60px;
-        height: 60px;
-        border-radius: 8px;
-        object-fit: cover;
-    }
+    width: 60px !important;
+    height: 60px !important;
+    border-radius: 8px;
+    object-fit: cover;
+    display: block !important; /* 强制显示 */
+    visibility: visible !important; /* 确保可见 */
+}
 
     /* 其他适配 */
     .events-header h3 {
@@ -436,5 +441,142 @@ body {
     }
     .event-card {
         padding: 10px 12px;
+    }
+}
+/* 下拉菜单基础样式（仅修复移动端兼容，不改动其他） */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 120px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  z-index: 9999; /* 仅提高层级，避免遮挡 */
+  border-radius: 4px;
+  top: 100%;
+  left: 0;
+  margin-top: 4px;
+  pointer-events: auto !important;
+}
+
+/* 子标签仅优化移动端触控，不改动颜色/布局 */
+.subtab {
+  color: black;
+  padding: 12px 16px !important; /* 仅放大移动端点击区域 */
+  cursor: pointer;
+  transition: background-color 0.3s;
+  /* 仅添加移动端触控修复 */
+  user-select: auto !important;
+  -webkit-user-select: auto !important;
+  touch-action: manipulation !important;
+  min-height: 44px !important;
+  font-size: 16px !important;
+}
+
+.subtab:hover {
+  background-color: #f1f1f1;
+}
+
+/* 保留PC端hover触发，仅移动端用JS补充 */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* 手机端下拉菜单：强制显示+修复定位 */
+@media (max-width: 768px) {
+  /* 修复移动端下拉菜单定位，确保可见 */
+  .mobile-dropdown .dropdown-content {
+    display: none !important; /* 初始隐藏，由JS控制显示 */
+    position: fixed !important; /* 固定定位，避免被遮挡 */
+    top: 120px !important; /* 固定在页面上方，不随滚动变化 */
+    left: 15px !important; /* 距离左侧15px，完全可见 */
+    right: 15px !important; /* 距离右侧15px，自适应宽度 */
+    transform: none !important; /* 取消偏移，确保在可视区域 */
+    z-index: 9999 !important; /* 最高层级，绝对不被遮挡 */
+    width: auto !important;
+    min-width: 200px !important;
+  }
+
+  /* 强制显示子标签，确保点击区域足够大 */
+  .subtab {
+    display: block !important;
+    padding: 15px 20px !important;
+    min-height: 50px !important;
+    font-size: 16px !important;
+  }
+}
+/* ========== 紧急修复：PC端下拉菜单+子标签点击 ========== */
+/* 1. 确保PC端下拉菜单hover能正常显示，层级最高 */
+.pc-dropdown {
+    position: relative;
+    z-index: 9999 !important; /* 防止被其他元素遮挡 */
+}
+.pc-dropdown .dropdown-content {
+    display: none !important;
+    position: absolute !important;
+    top: calc(100% + 2px) !important; /* 紧贴主标签下方 */
+    left: 0 !important;
+    background-color: #fff !important;
+    min-width: 120px !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+    border-radius: 8px !important;
+    z-index: 10000 !important; /* 比主标签更高 */
+    padding: 4px 0 !important;
+    border: 1px solid #eee !important;
+    margin-top: -2px !important;
+}
+.pc-dropdown::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 8px; /* 安全区域高度，覆盖主标签和菜单的缝隙 */
+    z-index: 9999;
+}
+
+/* 2. 恢复PC端hover触发下拉菜单（关键！） */
+.pc-dropdown:hover .dropdown-content {
+    display: block !important;
+}
+
+/* 3. 修复PC端子标签样式+点击区域 */
+.pc-dropdown .subtab {
+    color: #333 !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    min-height: auto !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+}
+.pc-dropdown .subtab:hover {
+    background-color: #f8f9fa !important;
+    color: #F7B2B2 !important; /* 和cha标签颜色匹配 */
+}
+.pc-dropdown .subtab:active {
+    background-color: #f0f0f0 !important;
+}
+
+/* 4. 隔离PC/移动端下拉菜单样式，避免冲突 */
+@media (min-width: 768px) {
+    /* PC端只启用pc-dropdown样式，屏蔽mobile-dropdown */
+    .mobile-dropdown {
+        display: none !important;
+    }
+    .pc-dropdown .dropdown-content {
+        display: none !important;
+    }
+    .pc-dropdown:hover .dropdown-content {
+        display: block !important;
+    }
+}
+@media (max-width: 767px) {
+    /* 移动端屏蔽pc-dropdown，避免干扰 */
+    .pc-dropdown .dropdown-content {
+        display: none !important;
     }
 }
