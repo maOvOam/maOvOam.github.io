@@ -5,9 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>⭐贺鑫隆动态日历⭐</title>
     <link rel="stylesheet" href="style.css">
-    <!-- 手机端分类专属样式：完全匹配PC端 -->
     <style>
-        /* 手机端分类标签样式：完全匹配PC端 */
+       /* 手机端分类标签样式 */
         .mobile-category-tabs {
             display: flex;
             overflow-x: auto;
@@ -17,6 +16,7 @@
             border-bottom: 1px solid #eee;
             gap: 8px;
             margin: 0;
+            -webkit-overflow-scrolling: touch; /* 移动端弹性滚动 */
         }
         .mobile-category-tabs .tab {
             padding: 6px 12px;
@@ -26,42 +26,93 @@
             white-space: nowrap;
             transition: all 0.2s ease;
             color: #fff !important;
+            flex-shrink: 0; /* 防止标签被压缩 */
         }
-        /* 每个分类标签的背景色，和PC端完全一致 */
+        /* 所有标签背景色（含子标签，和PC端一致） */
         .mobile-category-tabs .tab[data-target="全部动态"] { background-color: #b088c8; }
         .mobile-category-tabs .tab[data-target="全部动态"].active { background-color: #c9a8d8; }
         .mobile-category-tabs .tab[data-target="舞台"] { background-color: #ff6b8b; }
         .mobile-category-tabs .tab[data-target="舞台"].active { background-color: #ff9aa8; }
-        .mobile-category-tabs .tab[data-target="打歌"] { background-color: #ff7d00; }
-        .mobile-category-tabs .tab[data-target="打歌"].active { background-color: #ff9f33; }
+        .mobile-category-tabs .tab[data-target="打歌图/碎片"] { background-color: #ff7d00; }
+        .mobile-category-tabs .tab[data-target="打歌图/碎片"].active { background-color: #ff9f33; }
+        .mobile-category-tabs .tab[data-target="打歌直拍"] { background-color: #ff7d00; }
+        .mobile-category-tabs .tab[data-target="打歌直拍"].active { background-color: #ff9f33; }
         .mobile-category-tabs .tab[data-target="综艺"] { background-color: #7e57c2; }
         .mobile-category-tabs .tab[data-target="综艺"].active { background-color: #9c7ed2; }
-        .mobile-category-tabs .tab[data-target="物料"] { background-color: #66bb6a; }
-        .mobile-category-tabs .tab[data-target="物料"].active { background-color: #8ed191; }
+        .mobile-category-tabs .tab[data-target="图片物料"] { background-color: #66bb6a; }
+        .mobile-category-tabs .tab[data-target="图片物料"].active { background-color: #8ed191; }
+        .mobile-category-tabs .tab[data-target="短物料"] { background-color: #66bb6a; }
+        .mobile-category-tabs .tab[data-target="短物料"].active { background-color: #8ed191; }
+        .mobile-category-tabs .tab[data-target="长物料"] { background-color: #66bb6a; }
+        .mobile-category-tabs .tab[data-target="长物料"].active { background-color: #8ed191; }
+        .mobile-category-tabs .tab[data-target="队内cha"] { background-color: #EF9A9A; }
+        .mobile-category-tabs .tab[data-target="队内cha"].active { background-color: #F7B2B2; }
+        .mobile-category-tabs .tab[data-target="队外cha"] { background-color: #FFCDD2; }
+        .mobile-category-tabs .tab[data-target="队外cha"].active { background-color: #F7B2B2; }
         .mobile-category-tabs .tab[data-target="直播"] { background-color: #ef5350; }
         .mobile-category-tabs .tab[data-target="直播"].active { background-color: #f47775; }
         .mobile-category-tabs .tab[data-target="回归日程"] { background-color: #42a5f5; }
         .mobile-category-tabs .tab[data-target="回归日程"].active { background-color: #6fc3f7; }
         .mobile-category-tabs .tab[data-target="猫言猫语"] { background-color: #ab47bc; }
         .mobile-category-tabs .tab[data-target="猫言猫语"].active { background-color: #c26ed3; }
+        /* PC端标签样式（补全cha标签颜色） */
+        .category-tabs .tab {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #fff !important;
+            display: inline-block;
+        }
+        .category-tabs .tab[data-target="cha"] { background-color: #059669; }
+        .category-tabs .tab[data-target="cha"].active { background-color: #08a878; }
 
-        /* 隐藏滚动条，保留滑动功能 */
-        .mobile-category-tabs::-webkit-scrollbar {
+        /* 下拉菜单样式 */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-content {
             display: none;
+            position: absolute;
+            background-color: #fff;
+            min-width: 120px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 100;
+            border-radius: 8px;
+            overflow: hidden;
         }
-        /* PC端隐藏手机分类，手机端隐藏PC分类 */
-        @media (min-width: 768px) {
-            .mobile-category-tabs {
-                display: none;
-            }
+        .subtab {
+            color: #333 !important;
+            padding: 8px 12px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            white-space: nowrap;
         }
-        @media (max-width: 767px) {
-            .category-date-wrap {
-                display: none;
-            }
+        .subtab:hover {
+            background-color: #f0f0f0;
+        }
+        .subtab.active {
+            background-color: #e0e0e0;
+            color: #059669 !important; /* cha子标签激活色 */
+            font-weight: bold;
+        }
+        .mobile-dropdown .dropdown-content { top: 40px; left: 0; }
+        .pc-dropdown .dropdown-content { top: 38px; left: 0; }
+
+        /* 响应式隔离：PC/移动端互不显示 */
+        .mobile-category-tabs::-webkit-scrollbar { display: none; }
+        @media (min-width: 768px) { 
+            .mobile-category-tabs { display: none !important; } 
+            .category-date-wrap { display: flex !important; }
+        }
+        @media (max-width: 767px) { 
+            .category-date-wrap { display: none !important; } 
+            .mobile-category-tabs { display: flex !important; }
         }
 
-        /* 图片预览弹窗样式补充（确保交互正常） */
+        /* 图片预览弹窗样式 */
         #imgPreviewModal {
             position: fixed;
             top: 0;
@@ -74,50 +125,14 @@
             align-items: center;
             z-index: 9999;
         }
-        #previewImg {
-            max-width: 90%;
-            max-height: 90%;
-            object-fit: contain;
-            cursor: pointer;
-        }
-        #imgPreviewModal .close-btn {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            color: #fff;
-            font-size: 36px;
-            font-weight: bold;
-            cursor: pointer;
-            user-select: none;
-        }
-        #imgPreviewModal .prev-btn {
-            position: absolute;
-            left: 20px;
-            color: #fff;
-            font-size: 48px;
-            font-weight: bold;
-            cursor: pointer;
-            user-select: none;
-        }
-        #imgPreviewModal .next-btn {
-            position: absolute;
-            right: 20px;
-            color: #fff;
-            font-size: 48px;
-            font-weight: bold;
-            cursor: pointer;
-            user-select: none;
-        }
-        /* 弹窗按钮hover效果 */
-        #imgPreviewModal .close-btn:hover,
-        #imgPreviewModal .prev-btn:hover,
-        #imgPreviewModal .next-btn:hover {
-            color: #ccc;
-        }
+        #previewImg { max-width: 90%; max-height: 90%; object-fit: contain; cursor: pointer; }
+        #imgPreviewModal .close-btn { position: absolute; top: 20px; right: 30px; color: #fff; font-size: 36px; font-weight: bold; cursor: pointer; user-select: none; }
+        #imgPreviewModal .prev-btn { position: absolute; left: 20px; color: #fff; font-size: 48px; font-weight: bold; cursor: pointer; user-select: none; }
+        #imgPreviewModal .next-btn { position: absolute; right: 20px; color: #fff; font-size: 48px; font-weight: bold; cursor: pointer; user-select: none; }
+        #imgPreviewModal .close-btn:hover, #imgPreviewModal .prev-btn:hover, #imgPreviewModal .next-btn:hover { color: #ccc; }
     </style>
 </head>
 <body>
-    <!-- 顶部标题区：完全保留原有代码 -->
     <div class="header">
         <div class="title-group">
             <div class="title">⭐贺鑫隆动态日历⭐</div>
@@ -137,26 +152,54 @@
         </div>
     </div>
 
-    <!-- 手机端分类标签栏 -->
     <div class="mobile-category-tabs">
-        <div class="tab active" data-target="全部动态">全部动态</div>
-        <div class="tab" data-target="舞台">舞台</div>
-        <div class="tab" data-target="打歌">打歌</div>
-        <div class="tab" data-target="综艺">综艺</div>
-        <div class="tab" data-target="物料">物料</div>
-        <div class="tab" data-target="直播">直播</div>
-        <div class="tab" data-target="回归日程">回归日程</div>
-        <div class="tab" data-target="猫言猫语">猫言猫语</div>
+      <div class="tab active" data-target="全部动态">全部动态</div>
+      <div class="tab" data-target="舞台">舞台</div>
+      <!-- 打歌子标签直接平铺 -->
+      <div class="tab" data-target="打歌图/碎片">打歌图/碎片</div>
+      <div class="tab" data-target="打歌直拍">打歌直拍</div>
+      <div class="tab" data-target="综艺">综艺</div>
+      <!-- 物料子标签直接平铺 -->
+      <div class="tab" data-target="图片物料">图片物料</div>
+      <div class="tab" data-target="短物料">短物料</div>
+      <div class="tab" data-target="长物料">长物料</div>
+      <!-- cha子标签直接平铺 -->
+      <div class="tab" data-target="队内cha">队内cha</div>
+      <div class="tab" data-target="队外cha">队外cha</div>
+      <div class="tab" data-target="直播">直播</div>
+      <div class="tab" data-target="回归日程">回归日程</div>
+      <div class="tab" data-target="猫言猫语">猫言猫语</div>
     </div>
-
-    <!-- PC端专属：分类+日期同行布局 -->
+    
+    <!-- PC端分类+日期布局（修正：队外vha→队外cha） -->
     <div class="category-date-wrap">
         <div class="category-tabs">
             <div class="tab active" data-target="全部动态">全部动态</div>
             <div class="tab" data-target="舞台">舞台</div>
-            <div class="tab" data-target="打歌">打歌</div>
+            <div class="dropdown pc-dropdown">
+                <div class="tab dropdown-btn" data-target="打歌">打歌</div>
+                <div class="dropdown-content">
+                    <div class="subtab" data-target="打歌图/碎片">打歌图/碎片</div>
+                    <div class="subtab" data-target="打歌直拍">打歌直拍</div>
+                </div>
+            </div>
             <div class="tab" data-target="综艺">综艺</div>
-            <div class="tab" data-target="物料">物料</div>
+            <div class="dropdown pc-dropdown">
+                <div class="tab dropdown-btn" data-target="物料">物料</div>
+                <div class="dropdown-content">
+                    <div class="subtab" data-target="图片物料">图片物料</div>
+                    <div class="subtab" data-target="短物料">短物料</div>
+                    <div class="subtab" data-target="长物料">长物料</div>
+                </div>
+            </div>
+            <!-- 新增cha下拉菜单（修正拼写） -->
+            <div class="dropdown pc-dropdown">
+                <div class="tab dropdown-btn" data-target="cha">cha</div>
+                <div class="dropdown-content">
+                    <div class="subtab" data-target="队内cha">队内cha</div>
+                    <div class="subtab" data-target="队外cha">队外cha</div> <!-- 修正vha→cha -->
+                </div>
+            </div>
             <div class="tab" data-target="直播">直播</div>
             <div class="tab" data-target="回归日程">回归日程</div>
             <div class="tab" data-target="猫言猫语">猫言猫语</div>
@@ -175,14 +218,12 @@
         </div>
     </div>
 
-    <!-- 日历导航栏：完全保留原有代码 -->
     <div class="calendar-nav" style="display: flex !important;">
         <button class="nav-btn" onclick="changeMonth(-1)">&lt;</button>
         <div class="month-title">2026年</div>
         <button class="nav-btn" onclick="changeMonth(1)">&gt;</button>
     </div>
 
-    <!-- 日历网格：完全保留原有代码 -->
     <div class="calendar-grid" style="display: grid !important;">
         <div class="weekday">日</div>
         <div class="weekday">一</div>
@@ -191,10 +232,8 @@
         <div class="weekday">四</div>
         <div class="weekday">五</div>
         <div class="weekday">六</div>
-        <!-- 日期单元格由JS自动生成 -->
     </div>
 
-    <!-- 行程展示面板：完全保留原有代码 -->
     <div class="events-panel">
         <div class="events-header">
             <h3 id="eventsDateTitle">2026年 · 全部动态</h3>
@@ -203,8 +242,7 @@
         <div id="eventsList"></div>
     </div>
 
-    <!-- 引入JS文件 -->
     <script src="script.js"></script>
-    </script>
+    <div class="event-list-container" style="margin-top: 20px;"></div>
 </body>
 </html>
