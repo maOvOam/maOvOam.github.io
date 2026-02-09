@@ -15,13 +15,16 @@ function renderEventCard(dateStr, event) {
   const isMobile = window.innerWidth <= 768;
 
   // 兼容单图/多图（event.image 是数组则直接用，否则转数组）
-  const imgList = Array.isArray(event.image) ? event.image : (event.image ? [event.image] : [`https://picsum.photos/400/600?random=${Math.random()}`]);
+  const imgList = Array.isArray(event.image) ? event.image : (event.image ? [event.image] : ["https://cdn.jsdelivr.net/gh/maOvOam/maOvOam-img-bed/20260201Figaro.jpg"]);
 
   // 渲染图片容器（修改：删除多余属性）
   const renderImgs = () => {
     let html = '';
     imgList.forEach((src, idx) => {
-      const previewSrc = src || `https://picsum.photos/400/600?random=${Math.random()}`;
+      // 最终可直接使用的代码
+  const previewSrc = src 
+    ? "https://cdn.jsdelivr.net/gh/maOvOam/maOvOam-img-bed/images/" + src 
+    : "https://cdn.jsdelivr.net/gh/maOvOam/maOvOam-img-bed/images/20260201Figaro.jpg";
       // 仅保留 class="event-img"
       html += `<img src="${previewSrc}" alt="${event.title}-${idx+1}" class="event-img" style="width:100%;height:100%;border-radius:8px;object-fit:cover;cursor:pointer;draggable:false;">`;
     });
