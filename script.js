@@ -1,4 +1,4 @@
-// 全局变量（修改预览相关）
+// 全局变量
 let currentDate = new Date(2026, 1, 1);
 let activeCategory = '全部动态';
 let selectedYear = 2026;
@@ -7,73 +7,183 @@ let selectedDay = '';
 let eventsData = {}; // 当前月份行程数据
 let loadedMonths = {}; // 记录已加载月份，避免重复请求
 
-
-// ========== 提前定义 renderEventCard 函数（修复 ReferenceError） ==========
+// ========== 行程卡片渲染函数（修复图片+链接） ==========
 function renderEventCard(dateStr, event) {
   const [year, month, day] = dateStr.split('-');
-  const tagBgColor = getTagBgColor(event.tag);
-  const isMobile = window.innerWidth <= 768;
+  const tagInfo = getTagBgColor(event.tag);
+  const dayNum = day.padStart(2, '0');
 
-  // 兼容单图/多图（event.image 是数组则直接用，否则转数组）
-  const imgList = Array.isArray(event.image) ? event.image : (event.image ? [event.image] : ["https://cdn.jsdelivr.net/gh/maOvOam/maOvOam-img-bed/20260201Figaro.jpg"]);
-
-  // 渲染图片容器（修改：删除多余属性）
-  const renderImgs = () => {
-    let html = '';
-    imgList.forEach((src, idx) => {
-      // 最终可直接使用的代码
-  const previewSrc = src 
-    ? "https://cdn.jsdelivr.net/gh/maOvOam/maOvOam-img-bed/images/" + src 
-    : "https://cdn.jsdelivr.net/gh/maOvOam/maOvOam-img-bed/images/20260201Figaro.jpg";
-      // 仅保留 class="event-img"
-      html += `<img src="${previewSrc}" alt="${event.title}-${idx+1}" class="event-img" style="width:100%;height:100%;border-radius:8px;object-fit:cover;cursor:pointer;draggable:false;">`;
-    });
-    // 多图角标
-    const countTip = imgList.length > 1 ? `<div style="position:absolute;bottom:4px;right:4px;background:rgba(0,0,0,0.6);color:white;font-size:12px;padding:2px 4px;border-radius:4px;">${imgList.length}图</div>` : '';
-    return `<div style="position:relative;width:100%;height:100%;">${html}${countTip}</div>`;
-  };
-
-  // 手机端卡片
-  if (isMobile) {
-    return `
-      <div class="event-card" style="background:${tagBgColor};width:100%;box-sizing:border-box;">
-        <div class="event-card-left-mobile">
-          <div class="event-time-badge-mobile">
-            <span class="small-tag-mobile">${event.tag}</span>
-            <div class="day-badge-mobile">${day}</div>
-          </div>
-          <div class="event-card-content-mobile">
-            <div class="event-card-title-mobile"><a href="${event.link}" target="_blank">${event.title}</a></div>
-            <div class="event-card-desc-mobile">${event.time}</div>
-          </div>
-        </div>
-        <div class="event-card-right-mobile" style="position:relative;width:60px;height:60px;">${renderImgs()}</div>
+  // 图片基础配置
+  const imgBaseUrl = "https://cdn.jsdelivr.net/gh/maOvOam/maOvOam-img-bed/images/";
+  const defaultImg = imgBaseUrl + "20260201Figaro.jpg";
+  
+  // 1. 处理多图数据
+  let imgList = [];
+  if (Array.isArray(event.image)) {
+    imgList = event.image.filter(img => img); // 过滤空值
+  } else if (event.image) {
+    imgList = [event.image];
+  }
+  
+  // 2. 构建图片预览区域（支持点击放大）
+  let imgHtml = '';
+  if (imgList.length > 0) {
+    imgHtml = `
+      <div style="width:80px;height:80px;border-radius:8px;overflow:hidden;position:relative;">
+        <img 
+          src="${imgBaseUrl}${imgList[0]}" 
+          class="event-img" 
+          data-imgs='${JSON.stringify(imgList)}' 
+          style="width:100%;height:100%;object-fit:cover;cursor:pointer;"
+          onclick="openImgPreview(this.dataset.imgs, 0); return false;"
+        />
+        ${imgList.length > 1 ? `<div style="position:absolute;bottom:2px;right:2px;background:rgba(0,0,0,0.6);color:white;font-size:10px;padding:1px 4px;border-radius:3px;">${imgList.length}张</div>` : ''}
       </div>
     `;
-  } 
-  // PC端卡片
-  else {
-    return `
-      <div class="event-card" style="background:${tagBgColor};width:100%;box-sizing:border-box;">
-        <div class="event-card-left">
-          <div class="event-time-badge">${day}</div>
-          <div class="event-card-content">
-            <div class="event-card-title"><span class="small-tag">${event.tag}</span><a href="${event.link}" target="_blank">${event.title}</a></div>
-            <div class="event-card-desc">${event.time}</div>
-          </div>
-        </div>
-        <div class="event-card-right" style="position:relative;width:80px;height:80px;">${renderImgs()}</div>
+  } else {
+    imgHtml = `
+      <div style="width:80px;height:80px;border-radius:8px;overflow:hidden;">
+        <img 
+          src="${defaultImg}" 
+          class="event-img" 
+          data-imgs='["20260201Figaro.jpg"]' 
+          style="width:100%;height:100%;object-fit:cover;cursor:pointer;"
+          onclick="openImgPreview(this.dataset.imgs, 0); return false;"
+        />
       </div>
     `;
   }
+
+  // 3. 处理标题链接（支持点击跳转）
+  let titleHtml = '';
+  if (event.link) {
+    titleHtml = `
+      <a href="${event.link}" target="_blank" style="color:inherit;text-decoration:none;">
+        ${event.title}
+      </a>
+    `;
+  } else {
+    titleHtml = event.title;
+  }
+
+  const semiTransparentWhiteBg = "rgba(255, 255, 255, 0.2)";
+  const textColor = "#fff";
+  const cardRadius = "16px";
+
+  return `
+    <div style="background:${tagInfo.color};border-radius:${cardRadius};padding:12px 16px;margin-bottom:12px;display:flex;align-items:center;gap:14px;color:${textColor};font-family:微软雅黑, sans-serif;">
+      <div style="width:36px;height:36px;border-radius:50%;background:${semiTransparentWhiteBg};display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:bold;">
+        ${dayNum}
+      </div>
+      <div style="flex:1;">
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+          <div style="background:${semiTransparentWhiteBg};border-radius:4px;padding:3px 8px;font-size:12px;font-weight:600;">
+            ${tagInfo.text}
+          </div>
+          <div style="font-size:16px;font-weight:bold;flex:1;min-width:100px;">
+            ${titleHtml}
+          </div>
+        </div>
+        <div style="font-size:12px;opacity:0.8;margin-top:4px;">
+          ${year}年${month}月${day}日 ${event.time || '未知时间'}
+        </div>
+      </div>
+      ${imgHtml}
+    </div>
+  `;
 }
 
+// ========== 多图预览弹窗（核心修复） ==========
+function openImgPreview(imgsJson, startIndex) {
+  // 解析图片数组
+  const imgList = JSON.parse(imgsJson);
+  const imgBaseUrl = "https://cdn.jsdelivr.net/gh/maOvOam/maOvOam-img-bed/images/";
+  
+  // 创建弹窗容器
+  const modal = document.createElement('div');
+  modal.id = 'imgPreviewModal';
+  modal.style = `
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.9); display: flex; align-items: center;
+    justify-content: center; z-index: 9999;
+  `;
 
-// 新增：加载指定年月的JSON行程文件（核心新增函数）
+  // 预览图片
+  const previewImg = document.createElement('img');
+  previewImg.id = 'previewImg';
+  previewImg.src = imgBaseUrl + imgList[startIndex];
+  previewImg.style = 'max-width: 90%; max-height: 90%; object-fit: contain;';
+
+  // 关闭按钮
+  const closeBtn = document.createElement('span');
+  closeBtn.className = 'close-btn';
+  closeBtn.textContent = '×';
+  closeBtn.style = `
+    position: absolute; top: 20px; right: 30px; color: #fff; font-size: 40px;
+    font-weight: bold; cursor: pointer; user-select: none;
+  `;
+  closeBtn.onclick = () => {
+    document.body.removeChild(modal);
+  };
+
+  // 上一张按钮（多图时显示）
+  const prevBtn = document.createElement('span');
+  prevBtn.className = 'prev-btn';
+  prevBtn.textContent = '←';
+  prevBtn.style = `
+    position: absolute; left: 20px; color: #fff; font-size: 48px;
+    font-weight: bold; cursor: pointer; user-select: none;
+    display: ${imgList.length > 1 ? 'block' : 'none'};
+  `;
+  prevBtn.onclick = () => {
+    startIndex = (startIndex - 1 + imgList.length) % imgList.length;
+    previewImg.src = imgBaseUrl + imgList[startIndex];
+  };
+
+  // 下一张按钮（多图时显示）
+  const nextBtn = document.createElement('span');
+  nextBtn.className = 'next-btn';
+  nextBtn.textContent = '→';
+  nextBtn.style = `
+    position: absolute; right: 20px; color: #fff; font-size: 48px;
+    font-weight: bold; cursor: pointer; user-select: none;
+    display: ${imgList.length > 1 ? 'block' : 'none'};
+  `;
+  nextBtn.onclick = () => {
+    startIndex = (startIndex + 1) % imgList.length;
+    previewImg.src = imgBaseUrl + imgList[startIndex];
+  };
+
+  // 组装弹窗
+  modal.appendChild(prevBtn);
+  modal.appendChild(previewImg);
+  modal.appendChild(nextBtn);
+  modal.appendChild(closeBtn);
+  
+  // 点击弹窗外区域关闭
+  modal.onclick = (e) => {
+    if (e.target === modal) document.body.removeChild(modal);
+  };
+
+  // ESC键关闭
+  const escClose = (e) => {
+    if (e.key === 'Escape') {
+      document.body.removeChild(modal);
+      document.removeEventListener('keydown', escClose);
+    }
+  };
+  document.addEventListener('keydown', escClose);
+
+  // 添加到页面
+  document.body.appendChild(modal);
+}
+
+// ========== 加载月份行程数据 ==========
 async function loadMonthEvents(year, month) {
   const monthStr = month.toString().padStart(2, '0');
   const jsonFileName = `events_${year}_${monthStr}.json`;
   if (loadedMonths[`${year}_${monthStr}`]) return;
+  
   try {
     const res = await fetch(jsonFileName);
     if (!res.ok) {
@@ -81,57 +191,35 @@ async function loadMonthEvents(year, month) {
       alert(`暂无${year}年${monthStr}月的行程数据（未找到${jsonFileName}）`);
       return;
     }
-    eventsData = await res.json();
+    const data = await res.json();
+    eventsData = typeof data === 'object' && !Array.isArray(data) ? data : {};
     loadedMonths[`${year}_${monthStr}`] = true;
   } catch (err) {
     eventsData = {};
-    alert(`加载${year}年${monthStr}月行程失败，请检查JSON文件是否存在/格式是否正确`);
+    alert(`加载${year}年${monthStr}月行程失败：${err.message}`);
   }
 }
 
-// 初始化页面（新增：弹窗事件绑定）
-window.onload = async function() {
-  // 原有选择器初始化代码
-  selectedYear = Number(document.getElementById('yearSelect').value);
-  selectedMonth = document.getElementById('monthSelect').value;
-  selectedMonth = selectedMonth === '' ? '' : Number(selectedMonth);
-  selectedDay = '';
-  document.getElementById('yearSelect-pc').value = selectedYear;
-  document.getElementById('monthSelect-pc').value = selectedMonth;
-  document.getElementById('daySelect-pc').value = selectedDay;
-
-  // 加载默认月份（2026年2月）
-  if (selectedMonth === '') {
-    await loadMonthEvents(selectedYear, 2);
-  } else {
-    await loadMonthEvents(selectedYear, selectedMonth);
-  }
-
-  // 原有初始化逻辑
-  renderCalendar(selectedYear, selectedMonth);
-  initDaySelect();
-  bindCategoryTabEvent();
-  bindAllDateSelectorChange();
-  filterEventsByCategoryAndDate();
-};
-
-// 渲染日历
+// ========== 渲染日历 ==========
 function renderCalendar(year, month) {
   const calendarGrid = document.querySelector('.calendar-grid');
   const monthTitle = document.querySelector('.month-title');
   if (!calendarGrid || !monthTitle) return;
 
+  // 保留星期标题
   const weekdays = Array.from(calendarGrid.querySelectorAll('.weekday'));
   calendarGrid.innerHTML = '';
   weekdays.forEach(day => calendarGrid.appendChild(day));
   calendarGrid.style.display = 'grid';
 
+  // 标题显示
   if (!month || month === '') {
     monthTitle.textContent = `${year}年`;
     return;
   }
-
   monthTitle.textContent = `${year}年${month}月`;
+
+  // 计算月份天数和第一天
   const firstDay = new Date(year, month - 1, 1).getDay();
   const daysInMonth = new Date(year, month, 0).getDate();
 
@@ -149,6 +237,7 @@ function renderCalendar(year, month) {
     dayCell.className = 'day-cell';
     dayCell.addEventListener('click', () => openDetail(dateStr));
 
+    // 日期数字
     const dayNumber = document.createElement('div');
     dayNumber.className = 'day-number';
     dayNumber.textContent = day;
@@ -163,10 +252,11 @@ function renderCalendar(year, month) {
       tagContainer.style.marginTop = '4px';
 
       eventsData[dateStr].forEach(event => {
+        const tagInfo = getTagBgColor(event.tag);
         const eventTag = document.createElement('div');
         eventTag.className = `event-tag ${event.tag}`;
-        eventTag.textContent = event.tag;
-        eventTag.style.backgroundColor = getTagBgColor(event.tag);
+        eventTag.textContent = tagInfo.text;
+        eventTag.style.backgroundColor = tagInfo.color;
         eventTag.style.color = 'white';
         eventTag.style.padding = '2px 6px';
         eventTag.style.borderRadius = '4px';
@@ -186,7 +276,7 @@ function renderCalendar(year, month) {
   }
 }
 
-// 初始化日期选择器
+// ========== 初始化日期选择器 ==========
 function initDaySelect() {
   const yearSel = document.getElementById('yearSelect');
   const yearSelPc = document.getElementById('yearSelect-pc');
@@ -243,7 +333,7 @@ function initDaySelect() {
   renderCalendar(selectedYear, selectedMonth);
 }
 
-// 导航栏切换月份
+// ========== 切换月份 ==========
 function changeMonth(delta) {
   if (!selectedMonth || selectedMonth === '') {
     selectedYear += delta;
@@ -253,6 +343,7 @@ function changeMonth(delta) {
     selectedMonth = newDate.getMonth() + 1;
   }
 
+  // 更新选择器值
   document.getElementById('yearSelect').value = selectedYear;
   document.getElementById('monthSelect').value = selectedMonth;
   document.getElementById('yearSelect-pc').value = selectedYear;
@@ -261,7 +352,7 @@ function changeMonth(delta) {
   document.getElementById('daySelect').value = '';
   document.getElementById('daySelect-pc').value = '';
 
-  // 加载对应月份JSON
+  // 加载对应月份数据
   if (selectedMonth !== '') loadMonthEvents(selectedYear, selectedMonth);
   
   initDaySelect();
@@ -269,9 +360,9 @@ function changeMonth(delta) {
   filterEventsByCategoryAndDate();
 }
 
-// 绑定所有选择器事件
+// ========== 绑定日期选择器事件 ==========
 function bindAllDateSelectorChange() {
-  // 手机端年份选择器
+  // 手机端年份
   document.getElementById('yearSelect').addEventListener('change', async function() {
     selectedYear = Number(this.value);
     selectedDay = '';
@@ -285,7 +376,7 @@ function bindAllDateSelectorChange() {
     filterEventsByCategoryAndDate();
   });
 
-  // 手机端月份选择器
+  // 手机端月份
   document.getElementById('monthSelect').addEventListener('change', async function() {
     selectedMonth = this.value === '' ? '' : Number(this.value);
     selectedDay = '';
@@ -299,14 +390,14 @@ function bindAllDateSelectorChange() {
     filterEventsByCategoryAndDate();
   });
 
-  // 手机端日期选择器
+  // 手机端日期
   document.getElementById('daySelect').addEventListener('change', function() {
     selectedDay = this.value === '' ? '' : String(this.value).padStart(2, '0');
     document.getElementById('daySelect-pc').value = this.value;
     filterEventsByCategoryAndDate();
   });
 
-  // PC端年份选择器
+  // PC端年份
   document.getElementById('yearSelect-pc').addEventListener('change', async function() {
     selectedYear = Number(this.value);
     selectedDay = '';
@@ -320,7 +411,7 @@ function bindAllDateSelectorChange() {
     filterEventsByCategoryAndDate();
   });
 
-  // PC端月份选择器
+  // PC端月份
   document.getElementById('monthSelect-pc').addEventListener('change', async function() {
     selectedMonth = this.value === '' ? '' : Number(this.value);
     selectedDay = '';
@@ -334,7 +425,7 @@ function bindAllDateSelectorChange() {
     filterEventsByCategoryAndDate();
   });
 
-  // PC端日期选择器
+  // PC端日期
   document.getElementById('daySelect-pc').addEventListener('change', function() {
     selectedDay = this.value === '' ? '' : String(this.value).padStart(2, '0');
     document.getElementById('daySelect').value = this.value;
@@ -342,26 +433,92 @@ function bindAllDateSelectorChange() {
   });
 }
 
-// 绑定分类标签事件
+// ========== 核心：绑定分类标签 ==========
 function bindCategoryTabEvent() {
-  const tabs = document.querySelectorAll('.tab');
-  tabs.forEach(tab => {
-    tab.addEventListener('click', function() {
-      tabs.forEach(t => t.classList.remove('active'));
+  // 定义主标签对应的子标签集合
+  const mainTagSubMap = {
+    "打歌": ["打歌图/碎片", "打歌直拍"],
+    "物料": ["图片物料", "短物料", "长物料"],
+    "cha": ["队内cha", "队外cha"],
+    "全部动态": ["打歌图/碎片", "打歌直拍", "图片物料", "短物料", "长物料", "队内cha", "队外cha", "舞台", "综艺", "直播", "回归日程", "猫言猫语"]
+  };
+
+  // 1. 绑定下拉菜单触发按钮
+  document.querySelectorAll('.dropdown-btn').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      
+      const dropdownContent = this.nextElementSibling;
+      if (dropdownContent && dropdownContent.classList.contains('dropdown-content')) {
+        document.querySelectorAll('.dropdown-content').forEach(content => {
+          if (content !== dropdownContent) content.style.display = 'none';
+        });
+        dropdownContent.style.display = dropdownContent.style.display === 'block' ? 'none' : 'block';
+      }
+      
+      document.querySelectorAll('.tab, .subtab').forEach(el => el.classList.remove('active'));
       this.classList.add('active');
-      activeCategory = this.dataset.target;
+      activeCategory = this.dataset.target.trim();
       filterEventsByCategoryAndDate();
+    });
+  });
+
+  // 2. 绑定子标签点击事件
+  document.querySelectorAll('.subtab').forEach(subtab => {
+    subtab.addEventListener('click', function(e) {
+      e.stopPropagation();
+      
+      const subTagTarget = this.dataset.target.trim();
+      const mainBtn = this.closest('.dropdown').querySelector('.dropdown-btn');
+
+      document.querySelectorAll('.tab, .subtab').forEach(el => el.classList.remove('active'));
+      this.classList.add('active');
+      mainBtn.classList.add('active');
+
+      activeCategory = subTagTarget;
+      filterEventsByCategoryAndDate();
+    });
+  });
+
+  // 3. 绑定普通主标签
+  document.querySelectorAll('.tab').forEach(tab => {
+    if (!tab.classList.contains('dropdown-btn')) {
+      tab.addEventListener('click', function() {
+        document.querySelectorAll('.dropdown-content').forEach(content => {
+          content.style.display = 'none';
+        });
+        
+        document.querySelectorAll('.tab, .subtab').forEach(el => el.classList.remove('active'));
+        this.classList.add('active');
+        activeCategory = this.dataset.target.trim();
+        filterEventsByCategoryAndDate();
+      });
+    }
+  });
+
+  // 4. 点击空白处关闭菜单
+  document.addEventListener('click', function() {
+    document.querySelectorAll('.dropdown-content').forEach(content => {
+      content.style.display = 'none';
     });
   });
 }
 
-// 筛选行程
+// ========== 筛选行程 ==========
 function filterEventsByCategoryAndDate() {
   const eventsList = document.getElementById('eventsList');
   eventsList.innerHTML = '';
   let filterResult = [];
 
-  // 遍历行程数据筛选
+  // 主标签-子标签映射
+  const mainTagSubMap = {
+    "打歌": ["打歌图/碎片", "打歌直拍"],
+    "物料": ["图片物料", "短物料", "长物料"],
+    "cha": ["队内cha", "队外cha"],
+    "全部动态": ["打歌图/碎片", "打歌直拍", "图片物料", "短物料", "长物料", "队内cha", "队外cha", "舞台", "综艺", "直播", "回归日程", "猫言猫语"]
+  };
+
+  // 遍历筛选
   for (const [dateStr, eventList] of Object.entries(eventsData)) {
     const [y, m, d] = dateStr.split('-');
     const yNum = Number(y);
@@ -369,9 +526,16 @@ function filterEventsByCategoryAndDate() {
     const dStr = d;
 
     for (const event of eventList) {
-      const categoryMatch = activeCategory === '全部动态' || event.tag === activeCategory;
-      let timeMatch = false;
+      // 分类匹配
+      let categoryMatch = false;
+      if (mainTagSubMap[activeCategory]) {
+        categoryMatch = mainTagSubMap[activeCategory].includes(event.tag);
+      } else {
+        categoryMatch = event.tag === activeCategory;
+      }
 
+      // 时间匹配
+      let timeMatch;
       if (!selectedMonth && !selectedDay) {
         timeMatch = yNum === selectedYear;
       } else if (!selectedMonth && selectedDay) {
@@ -388,13 +552,13 @@ function filterEventsByCategoryAndDate() {
     }
   }
 
-  // 排序并渲染
+  // 排序渲染
   filterResult.sort((a, b) => a.dateStr.localeCompare(b.dateStr));
 
-  if (!selectedMonth && !selectedDay) {
-    if (filterResult.length === 0) {
-      eventsList.innerHTML = '<div style="text-align: center; padding: 20px; color: #999;">暂无相关行程</div>';
-    } else {
+  if (filterResult.length === 0) {
+    eventsList.innerHTML = '<div style="text-align: center; padding: 20px; color: #999;">暂无相关行程</div>';
+  } else {
+    if (!selectedMonth && !selectedDay) {
       const groupedByMonth = {};
       filterResult.forEach(item => {
         if (!groupedByMonth[item.month]) {
@@ -416,10 +580,6 @@ function filterEventsByCategoryAndDate() {
           });
         }
       }
-    }
-  } else {
-    if (filterResult.length === 0) {
-      eventsList.innerHTML = '<div style="text-align: center; padding: 20px; color: #999;">暂无相关行程</div>';
     } else {
       filterResult.forEach(item => {
         eventsList.innerHTML += renderEventCard(item.dateStr, item.event);
@@ -431,14 +591,14 @@ function filterEventsByCategoryAndDate() {
   updateEventsPanelTitle();
 }
 
-// 打开行程详情
+// ========== 打开行程详情 ==========
 function openDetail(dateStr) {
   const eventList = eventsData[dateStr] || [];
   const date = new Date(dateStr);
   const weekdays = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
   const weekday = weekdays[date.getDay()];
 
-  document.getElementById('eventsDateTitle').textContent = `${date.getFullYear()}年${date.getMonth()+1}月${date.getDate()}日 ${weekday} · ${activeCategory}`;
+  document.getElementById('eventsDateTitle').textContent = `${date.getFullYear()}年${date.getMonth()+1}月${date.getDate()}日 ${weekday}`;
   const eventsList = document.getElementById('eventsList');
   eventsList.innerHTML = '';
 
@@ -453,118 +613,196 @@ function openDetail(dateStr) {
   document.querySelector('.events-panel').classList.add('active');
 }
 
-// 关闭行程面板
+// ========== 关闭行程面板 ==========
 function closeEventsPanel() {
   document.querySelector('.events-panel').classList.remove('active');
 }
 
-// 更新面板标题
+// ========== 更新面板标题 ==========
 function updateEventsPanelTitle() {
   const titleEl = document.getElementById('eventsDateTitle');
-  let title = '';
+  let timeTitle = '';
+  let categoryTitle = activeCategory;
 
-  if (!selectedMonth && !selectedDay) {
-    title = `${selectedYear}年 · ${activeCategory}`;
-  } else if (!selectedMonth && selectedDay) {
-    title = `${selectedYear}年 每月${selectedDay}日 · ${activeCategory}`;
-  } else if (selectedMonth && !selectedDay) {
-    title = `${selectedYear}年${selectedMonth}月 · ${activeCategory}`;
-  } else {
-    title = `${selectedYear}年${selectedMonth}月${selectedDay}日 · ${activeCategory}`;
+  // 优化主标签标题
+  const mainTagAlias = {
+    "打歌": "打歌（打歌图/碎片+打歌直拍）",
+    "物料": "物料（图片物料+短物料+长物料）",
+    "cha": "cha（队内cha+队外cha）"
+  };
+  if (mainTagAlias[categoryTitle]) {
+    categoryTitle = mainTagAlias[categoryTitle];
   }
 
-  titleEl.textContent = title;
+  // 时间标题
+  if (!selectedMonth && !selectedDay) {
+    timeTitle = `${selectedYear}年`;
+  } else if (!selectedMonth && selectedDay) {
+    timeTitle = `${selectedYear}年 每月${selectedDay}日`;
+  } else if (selectedMonth && !selectedDay) {
+    timeTitle = `${selectedYear}年${selectedMonth}月`;
+  } else {
+    timeTitle = `${selectedYear}年${selectedMonth}月${selectedDay}日`;
+  }
+
+  titleEl.textContent = `${timeTitle} · ${categoryTitle}`;
 }
 
-// 获取标签背景色
+// ========== 标签颜色映射 ==========
 function getTagBgColor(tag) {
   const colorMap = {
-    打歌: '#ff7d00',
-    舞台: '#ff6b8b',
-    综艺: '#7e57c2',
-    物料: '#66bb6a',
-    直播: '#ef5350',
-    回归日程: '#42a5f5',
-    猫言猫语: '#ab47bc'
+    "打歌图/碎片": { color: "#f2a950", text: "打歌图/碎片" },
+    "打歌直拍": { color: "#e67e22", text: "打歌直拍" },
+    "图片物料": { color: "#34D399", text: "图片物料" },
+    "短物料": { color: "#059669", text: "短物料" },
+    "长物料": { color: "#065F46", text: "长物料" },
+    "队内cha": { color: "#EF9A9A", text: "队内cha" },
+    "队外cha": { color: "#FFCDD2", text: "队外cha" },
+    "舞台": { color: "#ff6b8b", text: "舞台" },
+    "综艺": { color: "#7e57c2", text: "综艺" },
+    "直播": { color: "#ef5350", text: "直播" },
+    "回归日程": { color: "#42a5f5", text: "回归日程" },
+    "猫言猫语": { color: "#ab47bc", text: "猫言猫语" }
   };
-  return colorMap[tag] || '#6b77e5';
+  return colorMap[tag] || { color: "#6b77e5", text: tag };
 }
-// 极简稳定版多图预览
-document.addEventListener('click', function(e) {
-  if (e.target.classList.contains('event-img')) {
-    // 获取当前卡片里的所有图片
-    const card = e.target.closest('.event-card');
-    const imgs = Array.from(card.querySelectorAll('.event-img'));
-    let currentIndex = imgs.indexOf(e.target);
 
-    // 1. 直接创建完整弹窗（避免查询失败）
-    const modal = document.createElement('div');
-    modal.style = `
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.8); display: flex; align-items: center;
-      justify-content: center; z-index: 9999;
-    `;
+// ========== 初始化页面 ==========
+window.onload = async function() {
+  // 初始化选择器值
+  selectedYear = Number(document.getElementById('yearSelect').value);
+  selectedMonth = document.getElementById('monthSelect').value;
+  selectedMonth = selectedMonth === '' ? '' : Number(selectedMonth);
+  selectedDay = '';
+  document.getElementById('yearSelect-pc').value = selectedYear;
+  document.getElementById('monthSelect-pc').value = selectedMonth;
+  document.getElementById('daySelect-pc').value = selectedDay;
 
-    // 2. 创建预览图
-    const previewImg = document.createElement('img');
-    previewImg.src = imgs[currentIndex].src;
-    previewImg.style = 'max-width: 80%; max-height: 80%;';
+  // 加载默认月份数据
+  if (selectedMonth === '') {
+    await loadMonthEvents(selectedYear, 2); // 默认加载2月
+  } else {
+    await loadMonthEvents(selectedYear, selectedMonth);
+  }
 
-    // 3. 创建按钮并直接绑定事件
-    const prevBtn = document.createElement('button');
-    prevBtn.textContent = '←';
-    prevBtn.style = `
-      position: absolute; left: 30px; top: 50%; transform: translateY(-50%);
-      background: rgba(255,255,255,0.2); color: white; border: none;
-      font-size: 30px; padding: 10px; cursor: pointer;
-    `;
-    prevBtn.onclick = () => {
-      currentIndex = (currentIndex - 1 + imgs.length) % imgs.length;
-      previewImg.src = imgs[currentIndex].src;
-    };
-
-    const nextBtn = document.createElement('button');
-    nextBtn.textContent = '→';
-    nextBtn.style = `
-      position: absolute; right: 30px; top: 50%; transform: translateY(-50%);
-      background: rgba(255,255,255,0.2); color: white; border: none;
-      font-size: 30px; padding: 10px; cursor: pointer;
-    `;
-    nextBtn.onclick = () => {
-      currentIndex = (currentIndex + 1) % imgs.length;
-      previewImg.src = imgs[currentIndex].src;
-    };
-
-    const closeBtn = document.createElement('button');
-    closeBtn.textContent = '×';
-    closeBtn.style = `
-      position: absolute; top: 20px; right: 20px;
-      background: rgba(255,255,255,0.2); color: white; border: none;
-      font-size: 24px; padding: 5px 15px; cursor: pointer;
-    `;
-    closeBtn.onclick = () => {
-      document.body.removeChild(modal);
-    };
-
-    // 4. 组装并显示弹窗
-    modal.appendChild(prevBtn);
-    modal.appendChild(previewImg);
-    modal.appendChild(nextBtn);
-    modal.appendChild(closeBtn);
-    document.body.appendChild(modal);
-
-    // 5. 点击弹窗外层关闭
-    modal.addEventListener('click', function(e) {
-      if (e.target === modal) {
-        document.body.removeChild(modal);
-      }
+  // 初始化
+  renderCalendar(selectedYear, selectedMonth);
+  initDaySelect();
+  bindCategoryTabEvent();
+  bindAllDateSelectorChange();
+  filterEventsByCategoryAndDate();
+};
+// 移动端下拉菜单强制显示逻辑
+document.addEventListener('DOMContentLoaded', function() {
+  if (window.innerWidth <= 768) {
+    // 给所有移动端下拉菜单的主标签绑定点击事件
+    document.querySelectorAll('.mobile-dropdown .dropdown-btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        // 关闭其他所有下拉菜单
+        document.querySelectorAll('.mobile-dropdown .dropdown-content').forEach(content => {
+          content.style.display = 'none';
+        });
+        // 显示当前下拉菜单
+        const dropdownContent = this.nextElementSibling;
+        if (dropdownContent) {
+          dropdownContent.style.display = dropdownContent.style.display === 'block' ? 'none' : 'block';
+        }
+      });
     });
 
-    // 6. ESC键关闭
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape' && document.body.contains(modal)) {
-        document.body.removeChild(modal);
+    // 点击页面其他区域关闭下拉菜单
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.mobile-dropdown')) {
+        document.querySelectorAll('.mobile-dropdown .dropdown-content').forEach(content => {
+          content.style.display = 'none';
+        });
       }
     });
   }
+});
+// ========== 移动端平铺标签绑定（仅新增，不改动原有逻辑） ==========
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. 移动端标签点击绑定
+    const mobileTabs = document.querySelectorAll('.mobile-category-tabs .tab');
+    mobileTabs.forEach(tab => {
+        // PC端click事件
+        tab.addEventListener('click', function() {
+            // 移除所有标签激活态
+            document.querySelectorAll('.tab, .subtab').forEach(el => el.classList.remove('active'));
+            // 激活当前移动端标签
+            this.classList.add('active');
+            // 设置筛选分类并刷新
+            activeCategory = this.dataset.target.trim();
+            filterEventsByCategoryAndDate();
+        });
+
+        // 移动端touch事件（解决300ms延迟）
+        tab.addEventListener('touchstart', function(e) {
+            e.stopPropagation();
+            this.click(); // 触发click事件，复用筛选逻辑
+        });
+    });
+
+    // 2. 保留PC端下拉菜单hover触发（原有逻辑）
+    const pcDropdowns = document.querySelectorAll('.pc-dropdown');
+    pcDropdowns.forEach(dropdown => {
+        dropdown.addEventListener('mouseenter', function() {
+            this.querySelector('.dropdown-content').style.display = 'block';
+        });
+        dropdown.addEventListener('mouseleave', function() {
+            this.querySelector('.dropdown-content').style.display = 'none';
+        });
+    });
+
+    // 3. PC端子标签点击绑定（原有逻辑）
+    const pcSubtabs = document.querySelectorAll('.subtab');
+    pcSubtabs.forEach(subtab => {
+        subtab.addEventListener('click', function() {
+            document.querySelectorAll('.tab, .subtab').forEach(el => el.classList.remove('active'));
+            this.classList.add('active');
+            this.closest('.dropdown').querySelector('.tab').classList.add('active');
+            activeCategory = this.dataset.target.trim();
+            filterEventsByCategoryAndDate();
+        });
+    });
+});
+// ========== 强制恢复PC端子标签点击事件 ==========
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. 给所有PC端子标签重新绑定点击事件
+    const pcSubtabs = document.querySelectorAll('.pc-dropdown .subtab');
+    pcSubtabs.forEach(subtab => {
+        // 先移除原有事件，避免冲突
+        subtab.removeEventListener('click', handleSubtabClick);
+        // 重新绑定最基础的点击事件
+        subtab.addEventListener('click', function(e) {
+            e.stopPropagation(); // 阻止事件冒泡关闭菜单
+            e.preventDefault();
+            
+            // 1. 激活当前子标签+对应主标签
+            document.querySelectorAll('.tab, .subtab').forEach(el => {
+                el.classList.remove('active');
+            });
+            this.classList.add('active');
+            this.closest('.pc-dropdown').querySelector('.tab').classList.add('active');
+            
+            // 2. 设置筛选分类并刷新
+            activeCategory = this.dataset.target.trim();
+            filterEventsByCategoryAndDate();
+            
+            // 3. 可选：点击后关闭下拉菜单（体验优化）
+            this.closest('.dropdown-content').style.display = 'none';
+        });
+    });
+
+    // 2. 确保PC端主标签点击也能生效
+    const pcMainTabs = document.querySelectorAll('.category-tabs .tab:not(.dropdown-btn)');
+    pcMainTabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            document.querySelectorAll('.tab, .subtab').forEach(el => el.classList.remove('active'));
+            this.classList.add('active');
+            activeCategory = this.dataset.target.trim();
+            filterEventsByCategoryAndDate();
+        });
+    });
 });
