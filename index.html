@@ -28,34 +28,52 @@
             color: #fff !important;
             flex-shrink: 0; /* 防止标签被压缩 */
         }
-        /* 所有标签背景色（含子标签，和PC端一致） */
+        /* 所有标签背景色（含新增子标签，保持同色系） */
         .mobile-category-tabs .tab[data-target="全部动态"] { background-color: #b088c8; }
         .mobile-category-tabs .tab[data-target="全部动态"].active { background-color: #c9a8d8; }
-        .mobile-category-tabs .tab[data-target="舞台"] { background-color: #ff6b8b; }
-        .mobile-category-tabs .tab[data-target="舞台"].active { background-color: #ff9aa8; }
+        /* 舞台子标签（粉色系） */
+        .mobile-category-tabs .tab[data-target="其他演出"] { background-color: #ff8fa3; }
+        .mobile-category-tabs .tab[data-target="其他演出"].active { background-color: #ffaaaf; }
+        .mobile-category-tabs .tab[data-target="颁奖典礼"] { background-color: #ff527b; }
+        .mobile-category-tabs .tab[data-target="颁奖典礼"].active { background-color: #ff7391; }
+        .mobile-category-tabs .tab[data-target="演唱会"] { background-color: #d63031; }
+        .mobile-category-tabs .tab[data-target="演唱会"].active { background-color: #e55a5a; }
+        /* 打歌子标签 */
         .mobile-category-tabs .tab[data-target="打歌图/碎片"] { background-color: #ff7d00; }
         .mobile-category-tabs .tab[data-target="打歌图/碎片"].active { background-color: #ff9f33; }
         .mobile-category-tabs .tab[data-target="打歌直拍"] { background-color: #ff7d00; }
         .mobile-category-tabs .tab[data-target="打歌直拍"].active { background-color: #ff9f33; }
-        .mobile-category-tabs .tab[data-target="综艺"] { background-color: #7e57c2; }
-        .mobile-category-tabs .tab[data-target="综艺"].active { background-color: #9c7ed2; }
+        /* 综艺子标签（紫色系） */
+        .mobile-category-tabs .tab[data-target="团综"] { background-color: #9575cd; }
+        .mobile-category-tabs .tab[data-target="团综"].active { background-color: #a88fd8; }
+        .mobile-category-tabs .tab[data-target="外务"] { background-color: #673ab7; }
+        .mobile-category-tabs .tab[data-target="外务"].active { background-color: #7e57c2; }
+        /* 物料子标签 */
         .mobile-category-tabs .tab[data-target="图片物料"] { background-color: #66bb6a; }
         .mobile-category-tabs .tab[data-target="图片物料"].active { background-color: #8ed191; }
         .mobile-category-tabs .tab[data-target="短物料"] { background-color: #66bb6a; }
         .mobile-category-tabs .tab[data-target="短物料"].active { background-color: #8ed191; }
         .mobile-category-tabs .tab[data-target="长物料"] { background-color: #66bb6a; }
         .mobile-category-tabs .tab[data-target="长物料"].active { background-color: #8ed191; }
+        /* cha子标签 */
         .mobile-category-tabs .tab[data-target="队内cha"] { background-color: #EF9A9A; }
         .mobile-category-tabs .tab[data-target="队内cha"].active { background-color: #F7B2B2; }
         .mobile-category-tabs .tab[data-target="队外cha"] { background-color: #FFCDD2; }
         .mobile-category-tabs .tab[data-target="队外cha"].active { background-color: #F7B2B2; }
-        .mobile-category-tabs .tab[data-target="直播"] { background-color: #ef5350; }
-        .mobile-category-tabs .tab[data-target="直播"].active { background-color: #f47775; }
+        /* 直播子标签（红色系） */
+        .mobile-category-tabs .tab[data-target="团体直播"] { background-color: #e57373; }
+        .mobile-category-tabs .tab[data-target="团体直播"].active { background-color: #ef9a9a; }
+        .mobile-category-tabs .tab[data-target="个人直播"] { background-color: #f44336; }
+        .mobile-category-tabs .tab[data-target="个人直播"].active { background-color: #f6685e; }
+        .mobile-category-tabs .tab[data-target="多人直播"] { background-color: #d32f2f; }
+        .mobile-category-tabs .tab[data-target="多人直播"].active { background-color: #e53935; }
+        /* 原有标签 */
         .mobile-category-tabs .tab[data-target="回归日程"] { background-color: #42a5f5; }
         .mobile-category-tabs .tab[data-target="回归日程"].active { background-color: #6fc3f7; }
         .mobile-category-tabs .tab[data-target="猫言猫语"] { background-color: #ab47bc; }
         .mobile-category-tabs .tab[data-target="猫言猫语"].active { background-color: #c26ed3; }
-        /* PC端标签样式（补全cha标签颜色） */
+        
+        /* PC端标签样式（补全新增子标签颜色） */
         .category-tabs .tab {
             padding: 8px 16px;
             border-radius: 20px;
@@ -67,11 +85,18 @@
         }
         .category-tabs .tab[data-target="cha"] { background-color: #059669; }
         .category-tabs .tab[data-target="cha"].active { background-color: #08a878; }
+        .category-tabs .tab[data-target="舞台"] { background-color: #ff6b8b; }
+        .category-tabs .tab[data-target="舞台"].active { background-color: #ff8fa3; }
+        .category-tabs .tab[data-target="综艺"] { background-color: #7e57c2; }
+        .category-tabs .tab[data-target="综艺"].active { background-color: #9575cd; }
+        .category-tabs .tab[data-target="直播"] { background-color: #ef5350; }
+        .category-tabs .tab[data-target="直播"].active { background-color: #e57373; }
 
         /* 下拉菜单样式 */
         .dropdown {
             position: relative;
             display: inline-block;
+            margin: 0 4px;
         }
         .dropdown-content {
             display: none;
@@ -95,9 +120,16 @@
         }
         .subtab.active {
             background-color: #e0e0e0;
-            color: #059669 !important; /* cha子标签激活色 */
             font-weight: bold;
         }
+        /* 不同分类子标签激活色 */
+        .pc-dropdown[data-target="打歌"] .subtab.active { color: #ff7d00 !important; }
+        .pc-dropdown[data-target="物料"] .subtab.active { color: #66bb6a !important; }
+        .pc-dropdown[data-target="cha"] .subtab.active { color: #059669 !important; }
+        .pc-dropdown[data-target="舞台"] .subtab.active { color: #ff6b8b !important; }
+        .pc-dropdown[data-target="综艺"] .subtab.active { color: #7e57c2 !important; }
+        .pc-dropdown[data-target="直播"] .subtab.active { color: #ef5350 !important; }
+        
         .mobile-dropdown .dropdown-content { top: 40px; left: 0; }
         .pc-dropdown .dropdown-content { top: 38px; left: 0; }
 
@@ -130,6 +162,15 @@
         #imgPreviewModal .prev-btn { position: absolute; left: 20px; color: #fff; font-size: 48px; font-weight: bold; cursor: pointer; user-select: none; }
         #imgPreviewModal .next-btn { position: absolute; right: 20px; color: #fff; font-size: 48px; font-weight: bold; cursor: pointer; user-select: none; }
         #imgPreviewModal .close-btn:hover, #imgPreviewModal .prev-btn:hover, #imgPreviewModal .next-btn:hover { color: #ccc; }
+        
+        /* 年份选择器样式（适配2025-2031） */
+        #yearSelect, #yearSelect-pc {
+            padding: 4px 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            min-width: 80px;
+        }
     </style>
 </head>
 <body>
@@ -142,6 +183,11 @@
             <select id="yearSelect">
                 <option value="2025">2025年</option>
                 <option value="2026" selected>2026年</option>
+                <option value="2027">2027年</option>
+                <option value="2028">2028年</option>
+                <option value="2029">2029年</option>
+                <option value="2030">2030年</option>
+                <option value="2031">2031年</option>
             </select>
             <select id="monthSelect">
                 <option value="" selected>未选择</option>
@@ -154,37 +200,63 @@
 
     <div class="mobile-category-tabs">
       <div class="tab active" data-target="全部动态">全部动态</div>
-      <div class="tab" data-target="舞台">舞台</div>
-      <!-- 打歌子标签直接平铺 -->
+      <!-- 舞台子标签（替换原有舞台主标签） -->
+      <div class="tab" data-target="其他演出">其他演出</div>
+      <div class="tab" data-target="颁奖典礼">颁奖典礼</div>
+      <div class="tab" data-target="演唱会">演唱会</div>
+      <!-- 打歌子标签（保留） -->
       <div class="tab" data-target="打歌图/碎片">打歌图/碎片</div>
       <div class="tab" data-target="打歌直拍">打歌直拍</div>
-      <div class="tab" data-target="综艺">综艺</div>
-      <!-- 物料子标签直接平铺 -->
+      <!-- 综艺子标签（替换原有综艺主标签） -->
+      <div class="tab" data-target="团综">团综</div>
+      <div class="tab" data-target="外务">外务</div>
+      <!-- 物料子标签（保留） -->
       <div class="tab" data-target="图片物料">图片物料</div>
       <div class="tab" data-target="短物料">短物料</div>
       <div class="tab" data-target="长物料">长物料</div>
-      <!-- cha子标签直接平铺 -->
+      <!-- cha子标签（保留） -->
       <div class="tab" data-target="队内cha">队内cha</div>
       <div class="tab" data-target="队外cha">队外cha</div>
-      <div class="tab" data-target="直播">直播</div>
+      <!-- 直播子标签（替换原有直播主标签） -->
+      <div class="tab" data-target="团体直播">团体直播</div>
+      <div class="tab" data-target="个人直播">个人直播</div>
+      <div class="tab" data-target="多人直播">多人直播</div>
+      <!-- 原有标签（保留） -->
       <div class="tab" data-target="回归日程">回归日程</div>
       <div class="tab" data-target="猫言猫语">猫言猫语</div>
     </div>
     
-    <!-- PC端分类+日期布局（修正：队外vha→队外cha） -->
+    <!-- PC端分类+日期布局（新增舞台/综艺/直播下拉子标签） -->
     <div class="category-date-wrap">
         <div class="category-tabs">
             <div class="tab active" data-target="全部动态">全部动态</div>
-            <div class="tab" data-target="舞台">舞台</div>
-            <div class="dropdown pc-dropdown">
+            <!-- 舞台下拉子标签 -->
+            <div class="dropdown pc-dropdown" data-target="舞台">
+                <div class="tab dropdown-btn" data-target="舞台">舞台</div>
+                <div class="dropdown-content">
+                    <div class="subtab" data-target="其他演出">其他演出</div>
+                    <div class="subtab" data-target="颁奖典礼">颁奖典礼</div>
+                    <div class="subtab" data-target="演唱会">演唱会</div>
+                </div>
+            </div>
+            <!-- 打歌下拉（保留） -->
+            <div class="dropdown pc-dropdown" data-target="打歌">
                 <div class="tab dropdown-btn" data-target="打歌">打歌</div>
                 <div class="dropdown-content">
                     <div class="subtab" data-target="打歌图/碎片">打歌图/碎片</div>
                     <div class="subtab" data-target="打歌直拍">打歌直拍</div>
                 </div>
             </div>
-            <div class="tab" data-target="综艺">综艺</div>
-            <div class="dropdown pc-dropdown">
+            <!-- 综艺下拉子标签 -->
+            <div class="dropdown pc-dropdown" data-target="综艺">
+                <div class="tab dropdown-btn" data-target="综艺">综艺</div>
+                <div class="dropdown-content">
+                    <div class="subtab" data-target="团综">团综</div>
+                    <div class="subtab" data-target="外务">外务</div>
+                </div>
+            </div>
+            <!-- 物料下拉（保留） -->
+            <div class="dropdown pc-dropdown" data-target="物料">
                 <div class="tab dropdown-btn" data-target="物料">物料</div>
                 <div class="dropdown-content">
                     <div class="subtab" data-target="图片物料">图片物料</div>
@@ -192,15 +264,24 @@
                     <div class="subtab" data-target="长物料">长物料</div>
                 </div>
             </div>
-            <!-- 新增cha下拉菜单（修正拼写） -->
-            <div class="dropdown pc-dropdown">
+            <!-- cha下拉（保留） -->
+            <div class="dropdown pc-dropdown" data-target="cha">
                 <div class="tab dropdown-btn" data-target="cha">cha</div>
                 <div class="dropdown-content">
                     <div class="subtab" data-target="队内cha">队内cha</div>
-                    <div class="subtab" data-target="队外cha">队外cha</div> <!-- 修正vha→cha -->
+                    <div class="subtab" data-target="队外cha">队外cha</div>
                 </div>
             </div>
-            <div class="tab" data-target="直播">直播</div>
+            <!-- 直播下拉子标签 -->
+            <div class="dropdown pc-dropdown" data-target="直播">
+                <div class="tab dropdown-btn" data-target="直播">直播</div>
+                <div class="dropdown-content">
+                    <div class="subtab" data-target="团体直播">团体直播</div>
+                    <div class="subtab" data-target="个人直播">个人直播</div>
+                    <div class="subtab" data-target="多人直播">多人直播</div>
+                </div>
+            </div>
+            <!-- 原有标签（保留） -->
             <div class="tab" data-target="回归日程">回归日程</div>
             <div class="tab" data-target="猫言猫语">猫言猫语</div>
         </div>
@@ -208,6 +289,11 @@
             <select id="yearSelect-pc">
                 <option value="2025">2025年</option>
                 <option value="2026" selected>2026年</option>
+                <option value="2027">2027年</option>
+                <option value="2028">2028年</option>
+                <option value="2029">2029年</option>
+                <option value="2030">2030年</option>
+                <option value="2031">2031年</option>
             </select>
             <select id="monthSelect-pc">
                 <option value="" selected>未选择</option>

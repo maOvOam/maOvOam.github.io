@@ -286,8 +286,21 @@ function initDaySelect() {
   const daySelPc = document.getElementById('daySelect-pc');
   
   const currentYear = selectedYear;
-  yearSel.value = currentYear;
-  yearSelPc.value = currentYear;
+  
+  // 初始化年份选择器（扩展2025-2031）
+  function initYearSelector(selector) {
+    selector.innerHTML = '';
+    for (let year = 2025; year <= 2031; year++) {
+      const option = document.createElement('option');
+      option.value = year;
+      option.textContent = `${year}年`;
+      if (year === currentYear) option.selected = true;
+      selector.appendChild(option);
+    }
+  }
+  initYearSelector(yearSel);
+  initYearSelector(yearSelPc);
+
   const currentMonth = selectedMonth;
 
   // 初始化月份选择器
@@ -435,12 +448,20 @@ function bindAllDateSelectorChange() {
 
 // ========== 核心：绑定分类标签 ==========
 function bindCategoryTabEvent() {
-  // 定义主标签对应的子标签集合
+  // 定义主标签对应的子标签集合（扩展舞台/综艺/直播）
   const mainTagSubMap = {
     "打歌": ["打歌图/碎片", "打歌直拍"],
     "物料": ["图片物料", "短物料", "长物料"],
     "cha": ["队内cha", "队外cha"],
-    "全部动态": ["打歌图/碎片", "打歌直拍", "图片物料", "短物料", "长物料", "队内cha", "队外cha", "舞台", "综艺", "直播", "回归日程", "猫言猫语"]
+    "舞台": ["其他演出", "颁奖典礼", "演唱会"],
+    "综艺": ["团综", "外务"],
+    "直播": ["团体直播", "个人直播", "多人直播"],
+    "全部动态": [
+      "打歌图/碎片", "打歌直拍", "图片物料", "短物料", "长物料", 
+      "队内cha", "队外cha", "舞台", "其他演出", "颁奖典礼", "演唱会",
+      "综艺", "团综", "外务", "直播", "团体直播", "个人直播", "多人直播",
+      "回归日程", "猫言猫语"
+    ]
   };
 
   // 1. 绑定下拉菜单触发按钮
@@ -510,12 +531,20 @@ function filterEventsByCategoryAndDate() {
   eventsList.innerHTML = '';
   let filterResult = [];
 
-  // 主标签-子标签映射
+  // 主标签-子标签映射（扩展版）
   const mainTagSubMap = {
     "打歌": ["打歌图/碎片", "打歌直拍"],
     "物料": ["图片物料", "短物料", "长物料"],
     "cha": ["队内cha", "队外cha"],
-    "全部动态": ["打歌图/碎片", "打歌直拍", "图片物料", "短物料", "长物料", "队内cha", "队外cha", "舞台", "综艺", "直播", "回归日程", "猫言猫语"]
+    "舞台": ["其他演出", "颁奖典礼", "演唱会"],
+    "综艺": ["团综", "外务"],
+    "直播": ["团体直播", "个人直播", "多人直播"],
+    "全部动态": [
+      "打歌图/碎片", "打歌直拍", "图片物料", "短物料", "长物料", 
+      "队内cha", "队外cha", "舞台", "其他演出", "颁奖典礼", "演唱会",
+      "综艺", "团综", "外务", "直播", "团体直播", "个人直播", "多人直播",
+      "回归日程", "猫言猫语"
+    ]
   };
 
   // 遍历筛选
@@ -628,7 +657,10 @@ function updateEventsPanelTitle() {
   const mainTagAlias = {
     "打歌": "打歌（打歌图/碎片+打歌直拍）",
     "物料": "物料（图片物料+短物料+长物料）",
-    "cha": "cha（队内cha+队外cha）"
+    "cha": "cha（队内cha+队外cha）",
+    "舞台": "舞台（其他演出+颁奖典礼+演唱会）",
+    "综艺": "综艺（团综+外务）",
+    "直播": "直播（团体直播+个人直播+多人直播）"
   };
   if (mainTagAlias[categoryTitle]) {
     categoryTitle = mainTagAlias[categoryTitle];
@@ -648,9 +680,10 @@ function updateEventsPanelTitle() {
   titleEl.textContent = `${timeTitle} · ${categoryTitle}`;
 }
 
-// ========== 标签颜色映射 ==========
+// ========== 标签颜色映射（扩展版） ==========
 function getTagBgColor(tag) {
   const colorMap = {
+    // 原有标签
     "打歌图/碎片": { color: "#f2a950", text: "打歌图/碎片" },
     "打歌直拍": { color: "#e67e22", text: "打歌直拍" },
     "图片物料": { color: "#34D399", text: "图片物料" },
@@ -662,7 +695,21 @@ function getTagBgColor(tag) {
     "综艺": { color: "#7e57c2", text: "综艺" },
     "直播": { color: "#ef5350", text: "直播" },
     "回归日程": { color: "#42a5f5", text: "回归日程" },
-    "猫言猫语": { color: "#ab47bc", text: "猫言猫语" }
+    "猫言猫语": { color: "#ab47bc", text: "猫言猫语" },
+    
+    // 新增舞台子标签（粉色系）
+    "其他演出": { color: "#ff8fa3", text: "其他演出" },
+    "颁奖典礼": { color: "#ff527b", text: "颁奖典礼" },
+    "演唱会": { color: "#d63031", text: "演唱会" },
+    
+    // 新增综艺子标签（紫色系）
+    "团综": { color: "#9575cd", text: "团综" },
+    "外务": { color: "#673ab7", text: "外务" },
+    
+    // 新增直播子标签（红色系）
+    "团体直播": { color: "#e57373", text: "团体直播" },
+    "个人直播": { color: "#f44336", text: "个人直播" },
+    "多人直播": { color: "#d32f2f", text: "多人直播" }
   };
   return colorMap[tag] || { color: "#6b77e5", text: tag };
 }
@@ -670,7 +717,7 @@ function getTagBgColor(tag) {
 // ========== 初始化页面 ==========
 window.onload = async function() {
   // 初始化选择器值
-  selectedYear = Number(document.getElementById('yearSelect').value);
+  selectedYear = Number(document.getElementById('yearSelect').value) || 2026;
   selectedMonth = document.getElementById('monthSelect').value;
   selectedMonth = selectedMonth === '' ? '' : Number(selectedMonth);
   selectedDay = '';
@@ -692,9 +739,48 @@ window.onload = async function() {
   bindAllDateSelectorChange();
   filterEventsByCategoryAndDate();
 };
+
 // 移动端下拉菜单强制显示逻辑
 document.addEventListener('DOMContentLoaded', function() {
   if (window.innerWidth <= 768) {
+    // 移除移动端原有舞台/综艺/直播主标签，替换为子标签
+    const mobileTabContainer = document.querySelector('.mobile-category-tabs');
+    if (mobileTabContainer) {
+      // 移除旧标签
+      const oldTags = mobileTabContainer.querySelectorAll('.tab[data-target="舞台"], .tab[data-target="综艺"], .tab[data-target="直播"]');
+      oldTags.forEach(tag => tag.remove());
+      
+      // 添加舞台子标签
+      const stageSubTags = ["其他演出", "颁奖典礼", "演唱会"];
+      stageSubTags.forEach(tagName => {
+        const tab = document.createElement('div');
+        tab.className = 'tab';
+        tab.dataset.target = tagName;
+        tab.textContent = tagName;
+        mobileTabContainer.appendChild(tab);
+      });
+      
+      // 添加综艺子标签
+      const varietySubTags = ["团综", "外务"];
+      varietySubTags.forEach(tagName => {
+        const tab = document.createElement('div');
+        tab.className = 'tab';
+        tab.dataset.target = tagName;
+        tab.textContent = tagName;
+        mobileTabContainer.appendChild(tab);
+      });
+      
+      // 添加直播子标签
+      const liveSubTags = ["团体直播", "个人直播", "多人直播"];
+      liveSubTags.forEach(tagName => {
+        const tab = document.createElement('div');
+        tab.className = 'tab';
+        tab.dataset.target = tagName;
+        tab.textContent = tagName;
+        mobileTabContainer.appendChild(tab);
+      });
+    }
+
     // 给所有移动端下拉菜单的主标签绑定点击事件
     document.querySelectorAll('.mobile-dropdown .dropdown-btn').forEach(btn => {
       btn.addEventListener('click', function(e) {
@@ -719,8 +805,74 @@ document.addEventListener('DOMContentLoaded', function() {
         });
       }
     });
+  } else {
+    // PC端添加舞台/综艺/直播下拉菜单
+    const pcDropdownContainer = document.querySelector('.pc-dropdowns');
+    if (pcDropdownContainer) {
+      // 舞台下拉
+      const stageDropdown = document.createElement('div');
+      stageDropdown.className = 'dropdown pc-dropdown';
+      stageDropdown.innerHTML = `
+        <div class="tab dropdown-btn" data-target="舞台">舞台</div>
+        <div class="dropdown-content">
+          <div class="subtab" data-target="其他演出">其他演出</div>
+          <div class="subtab" data-target="颁奖典礼">颁奖典礼</div>
+          <div class="subtab" data-target="演唱会">演唱会</div>
+        </div>
+      `;
+      pcDropdownContainer.appendChild(stageDropdown);
+      
+      // 综艺下拉
+      const varietyDropdown = document.createElement('div');
+      varietyDropdown.className = 'dropdown pc-dropdown';
+      varietyDropdown.innerHTML = `
+        <div class="tab dropdown-btn" data-target="综艺">综艺</div>
+        <div class="dropdown-content">
+          <div class="subtab" data-target="团综">团综</div>
+          <div class="subtab" data-target="外务">外务</div>
+        </div>
+      `;
+      pcDropdownContainer.appendChild(varietyDropdown);
+      
+      // 直播下拉
+      const liveDropdown = document.createElement('div');
+      liveDropdown.className = 'dropdown pc-dropdown';
+      liveDropdown.innerHTML = `
+        <div class="tab dropdown-btn" data-target="直播">直播</div>
+        <div class="dropdown-content">
+          <div class="subtab" data-target="团体直播">团体直播</div>
+          <div class="subtab" data-target="个人直播">个人直播</div>
+          <div class="subtab" data-target="多人直播">多人直播</div>
+        </div>
+      `;
+      pcDropdownContainer.appendChild(liveDropdown);
+      
+      // PC端hover事件
+      document.querySelectorAll('.pc-dropdown').forEach(dropdown => {
+        dropdown.addEventListener('mouseenter', function() {
+          this.querySelector('.dropdown-content').style.display = 'block';
+        });
+        dropdown.addEventListener('mouseleave', function() {
+          this.querySelector('.dropdown-content').style.display = 'none';
+        });
+      });
+      
+      // PC端子标签点击事件
+      document.querySelectorAll('.pc-dropdown .subtab').forEach(subtab => {
+        subtab.addEventListener('click', function(e) {
+          e.stopPropagation();
+          document.querySelectorAll('.tab, .subtab').forEach(el => el.classList.remove('active'));
+          this.classList.add('active');
+          this.closest('.pc-dropdown').querySelector('.tab').classList.add('active');
+          activeCategory = this.dataset.target.trim();
+          filterEventsByCategoryAndDate();
+          this.closest('.dropdown-content').style.display = 'none';
+        });
+      });
+    }
   }
 });
+
 // ========== 移动端平铺标签绑定（仅新增，不改动原有逻辑） ==========
 document.addEventListener('DOMContentLoaded', function() {
     // 1. 移动端标签点击绑定
@@ -767,6 +919,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
 // ========== 强制恢复PC端子标签点击事件 ==========
 document.addEventListener('DOMContentLoaded', function() {
     // 1. 给所有PC端子标签重新绑定点击事件
@@ -806,3 +959,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+// 兼容处理函数（避免报错）
+function handleSubtabClick() {}
