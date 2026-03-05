@@ -93,14 +93,19 @@ body {
 .category-tabs .tab[data-target="综艺"].active { background-color: #9c7ed2; }
 .category-tabs .tab[data-target="物料"] { background-color: #66bb6a; }
 .category-tabs .tab[data-target="物料"].active { background-color: #8ed191; }
-.category-tabs .tab[data-target="cha"] { background-color: #F7B2B2; }
-.category-tabs .tab[data-target="cha"].active { background-color: #F7B2B2; }
+/* 核心修改：cha导航栏按钮改为浅香芋紫 #A895E7 */
+.category-tabs .tab[data-target="cha"] { background-color: #A895E7; }
+.category-tabs .tab[data-target="cha"].active { background-color: #A895E7; }
 .category-tabs .tab[data-target="直播"] { background-color: #ef5350; }
 .category-tabs .tab[data-target="直播"].active { background-color: #f47775; }
 .category-tabs .tab[data-target="回归日程"] { background-color: #42a5f5; }
 .category-tabs .tab[data-target="回归日程"].active { background-color: #6fc3f7; }
 .category-tabs .tab[data-target="猫言猫语"] { background-color: #ab47bc; }
 .category-tabs .tab[data-target="猫言猫语"].active { background-color: #c26ed3; }
+
+/* 新增：饲养员日记 样式 */
+.category-tabs .tab[data-target="饲养员日记"] { background-color: #b088c8; }
+.category-tabs .tab[data-target="饲养员日记"].active { background-color: #c9a8d8; }
 
 /* 日历导航栏 */
 .calendar-nav {
@@ -189,9 +194,15 @@ body {
 .event-tag.猫言猫语 { background-color: #ab47bc; }
 .event-tag.物料 { background-color: #66bb6a; }
 .event-tag.打歌 { background-color: #ff7d00; }
+/* 打歌小游戏标签颜色（和打歌主标签保持一致） */
+.event-tag.打歌小游戏 { background-color: #ff7d00 !important; }
 .event-tag.综艺 { background-color: #7e57c2; }
 .event-tag.回归日程 { background-color: #42a5f5; }
-.event-tag.cha { background-color: #F7B2B2; }
+/* 核心修改：日历中cha标签改为浅香芋紫 #A895E7 */
+.event-tag.cha { background-color: #A895E7; }
+
+/* 新增：饲养员日记 日历标签颜色 */
+.event-tag.饲养员日记 { background-color: #b088c8; }
 
 /* 行程展示面板 */
 .events-panel {
@@ -199,7 +210,7 @@ body {
     border-radius: 12px;
     padding: 15px;
     margin-top: 15px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     display: none;
 }
 .events-panel.active {
@@ -314,6 +325,110 @@ body {
     object-fit: cover;
 }
 
+/* 打歌小游戏 行程卡片背景色（PC端+移动端通用） */
+.event-card[data-category="打歌小游戏"],
+.event-card.打歌小游戏 {
+    background-color: #ff7d00 !important;
+}
+
+/* ========== 搜索框样式（新增，匹配页面风格） ========== */
+.search-container {
+    padding: 10px 15px;
+    background-color: #f8e2f1; /* 和日历导航栏背景一致 */
+    border-radius: 8px; /* 匹配页面圆角风格 */
+    margin: 0 0 15px 0;
+}
+#scheduleSearchInput {
+    width: 100%;
+    max-width: 400px;
+    padding: 8px 16px;
+    font-size: 14px;
+    border: 1px solid #e0c5e9; /* 浅紫色边框，匹配主题 */
+    border-radius: 20px;
+    outline: none;
+    box-sizing: border-box;
+    display: block;
+    margin: 0 auto;
+    background-color: #fff;
+    color: #6a4c93; /* 文字颜色匹配主题 */
+}
+#scheduleSearchInput::placeholder {
+    color: #b088c8; /* 占位符颜色匹配主题 */
+    opacity: 0.8;
+}
+#scheduleSearchInput:focus {
+    border-color: #b088c8; /* 聚焦边框色匹配标题栏 */
+    box-shadow: 0 0 0 2px rgba(176, 136, 200, 0.2);
+}
+
+/* ========== 手机端分类标签样式（补充完整） ========== */
+.mobile-category-tabs {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 10px 15px;
+    background: #f8e2f1; /* 匹配搜索框/日历导航背景 */
+    border-radius: 8px;
+    margin-bottom: 15px;
+    gap: 8px;
+    -webkit-overflow-scrolling: touch;
+}
+.mobile-category-tabs::-webkit-scrollbar {
+    display: none;
+}
+.mobile-category-tabs .tab {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+    color: #fff !important;
+    flex-shrink: 0;
+}
+/* 移动端标签颜色（完整补充） */
+.mobile-category-tabs .tab[data-target="全部动态"] { background-color: #b088c8; }
+.mobile-category-tabs .tab[data-target="全部动态"].active { background-color: #c9a8d8; }
+.mobile-category-tabs .tab[data-target="其他演出"] { background-color: #ff8fa3; }
+.mobile-category-tabs .tab[data-target="其他演出"].active { background-color: #ffaaaf; }
+.mobile-category-tabs .tab[data-target="颁奖典礼"] { background-color: #ff527b; }
+.mobile-category-tabs .tab[data-target="颁奖典礼"].active { background-color: #ff7391; }
+.mobile-category-tabs .tab[data-target="演唱会"] { background-color: #d63031; }
+.mobile-category-tabs .tab[data-target="演唱会"].active { background-color: #e55a5a; }
+.mobile-category-tabs .tab[data-target="打歌图/碎片"] { background-color: #ff7d00; }
+.mobile-category-tabs .tab[data-target="打歌图/碎片"].active { background-color: #ff9f33; }
+.mobile-category-tabs .tab[data-target="打歌直拍"] { background-color: #ff7d00; }
+.mobile-category-tabs .tab[data-target="打歌直拍"].active { background-color: #ff9f33; }
+.mobile-category-tabs .tab[data-target="打歌小游戏"] { background-color: #ff7d00; }
+.mobile-category-tabs .tab[data-target="打歌小游戏"].active { background-color: #ff9f33; }
+.mobile-category-tabs .tab[data-target="团综"] { background-color: #9575cd; }
+.mobile-category-tabs .tab[data-target="团综"].active { background-color: #a88fd8; }
+.mobile-category-tabs .tab[data-target="外务"] { background-color: #673ab7; }
+.mobile-category-tabs .tab[data-target="外务"].active { background-color: #7e57c2; }
+.mobile-category-tabs .tab[data-target="图片物料"] { background-color: #66bb6a; }
+.mobile-category-tabs .tab[data-target="图片物料"].active { background-color: #8ed191; }
+.mobile-category-tabs .tab[data-target="短物料"] { background-color: #66bb6a; }
+.mobile-category-tabs .tab[data-target="短物料"].active { background-color: #8ed191; }
+.mobile-category-tabs .tab[data-target="长物料"] { background-color: #66bb6a; }
+.mobile-category-tabs .tab[data-target="长物料"].active { background-color: #8ed191; }
+/* 核心修改：移动端队内/队外cha子标签改为浅香芋紫 #A895E7 */
+.mobile-category-tabs .tab[data-target="队内cha"] { background-color: #A895E7; }
+.mobile-category-tabs .tab[data-target="队内cha"].active { background-color: #A895E7; }
+.mobile-category-tabs .tab[data-target="队外cha"] { background-color: #9370DB; }
+.mobile-category-tabs .tab[data-target="队外cha"].active { background-color: #9370DB; }
+.mobile-category-tabs .tab[data-target="团体直播"] { background-color: #e57373; }
+.mobile-category-tabs .tab[data-target="团体直播"].active { background-color: #ef9a9a; }
+.mobile-category-tabs .tab[data-target="个人直播"] { background-color: #f44336; }
+.mobile-category-tabs .tab[data-target="个人直播"].active { background-color: #f6685e; }
+.mobile-category-tabs .tab[data-target="多人直播"] { background-color: #d32f2f; }
+.mobile-category-tabs .tab[data-target="多人直播"].active { background-color: #e53935; }
+.mobile-category-tabs .tab[data-target="回归日程"] { background-color: #42a5f5; }
+.mobile-category-tabs .tab[data-target="回归日程"].active { background-color: #6fc3f7; }
+.mobile-category-tabs .tab[data-target="猫言猫语"] { background-color: #ab47bc; }
+.mobile-category-tabs .tab[data-target="猫言猫语"].active { background-color: #c26ed3; }
+.mobile-category-tabs .tab[data-target="饲养员日记"] { background-color: #FFB7C5; }
+.mobile-category-tabs .tab[data-target="饲养员日记"].active { background-color: #FFCCD5; }
+
 /* ========== PC端布局适配 ========== */
 @media (min-width: 768px) {
     .header .date-selector {
@@ -326,6 +441,10 @@ body {
         justify-content: flex-start;
         margin-bottom: 0;
         flex: 1;
+    }
+    /* PC端搜索框最大宽度调整 */
+    #scheduleSearchInput {
+        max-width: 300px;
     }
 }
 
@@ -367,7 +486,6 @@ body {
         display: flex;
         align-items: center;
         justify-content: center;
-    }
     }
     .event-time-badge-mobile {
         display: flex;
@@ -416,7 +534,7 @@ body {
     object-fit: cover;
     display: block !important; /* 强制显示 */
     visibility: visible !important; /* 确保可见 */
-}
+    }
 
     /* 其他适配 */
     .events-header h3 {
@@ -426,6 +544,11 @@ body {
         font-size: 13px;
         padding: 6px 14px;
     }
+    /* 移动端搜索框宽度100% */
+    #scheduleSearchInput {
+        max-width: 100%;
+    }
+}
 
 /* 超小屏适配 */
 @media (max-width: 480px) {
@@ -443,6 +566,7 @@ body {
         padding: 10px 12px;
     }
 }
+
 /* 下拉菜单基础样式（仅修复移动端兼容，不改动其他） */
 .dropdown {
   position: relative;
@@ -509,6 +633,7 @@ body {
     font-size: 16px !important;
   }
 }
+
 /* ========== 紧急修复：PC端下拉菜单+子标签点击 ========== */
 /* 1. 确保PC端下拉菜单hover能正常显示，层级最高 */
 .pc-dropdown {
@@ -553,9 +678,10 @@ body {
     cursor: pointer !important;
     transition: all 0.2s ease !important;
 }
+/* 核心修改：PC端子标签hover时文字色改为浅香芋紫 #A895E7 */
 .pc-dropdown .subtab:hover {
     background-color: #f8f9fa !important;
-    color: #F7B2B2 !important; /* 和cha标签颜色匹配 */
+    color: #A895E7 !important; /* 和cha标签颜色匹配 */
 }
 .pc-dropdown .subtab:active {
     background-color: #f0f0f0 !important;
@@ -579,4 +705,12 @@ body {
     .pc-dropdown .dropdown-content {
         display: none !important;
     }
+}
+
+/* 行程隐藏类（补充，确保搜索功能生效） */
+.event-item.hidden {
+    display: none !important;
+}
+.event-card.hidden {
+    display: none !important;
 }

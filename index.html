@@ -38,11 +38,13 @@
         .mobile-category-tabs .tab[data-target="颁奖典礼"].active { background-color: #ff7391; }
         .mobile-category-tabs .tab[data-target="演唱会"] { background-color: #d63031; }
         .mobile-category-tabs .tab[data-target="演唱会"].active { background-color: #e55a5a; }
-        /* 打歌子标签 */
+        /* 打歌子标签（新增打歌小游戏，保持橙色系） */
         .mobile-category-tabs .tab[data-target="打歌图/碎片"] { background-color: #ff7d00; }
         .mobile-category-tabs .tab[data-target="打歌图/碎片"].active { background-color: #ff9f33; }
         .mobile-category-tabs .tab[data-target="打歌直拍"] { background-color: #ff7d00; }
         .mobile-category-tabs .tab[data-target="打歌直拍"].active { background-color: #ff9f33; }
+        .mobile-category-tabs .tab[data-target="打歌小游戏"] { background-color: #ff7d00; }
+        .mobile-category-tabs .tab[data-target="打歌小游戏"].active { background-color: #ff9f33; }
         /* 综艺子标签（紫色系） */
         .mobile-category-tabs .tab[data-target="团综"] { background-color: #9575cd; }
         .mobile-category-tabs .tab[data-target="团综"].active { background-color: #a88fd8; }
@@ -56,10 +58,10 @@
         .mobile-category-tabs .tab[data-target="长物料"] { background-color: #66bb6a; }
         .mobile-category-tabs .tab[data-target="长物料"].active { background-color: #8ed191; }
         /* cha子标签 */
-        .mobile-category-tabs .tab[data-target="队内cha"] { background-color: #EF9A9A; }
-        .mobile-category-tabs .tab[data-target="队内cha"].active { background-color: #F7B2B2; }
-        .mobile-category-tabs .tab[data-target="队外cha"] { background-color: #FFCDD2; }
-        .mobile-category-tabs .tab[data-target="队外cha"].active { background-color: #F7B2B2; }
+        .mobile-category-tabs .tab[data-target="队内cha"] { background-color: #A895E7; }
+        .mobile-category-tabs .tab[data-target="队内cha"].active { background-color: #A895E7; }
+        .mobile-category-tabs .tab[data-target="队外cha"] { background-color: #9370DB; }
+        .mobile-category-tabs .tab[data-target="队外cha"].active { background-color: #9370DB; }
         /* 直播子标签（红色系） */
         .mobile-category-tabs .tab[data-target="团体直播"] { background-color: #e57373; }
         .mobile-category-tabs .tab[data-target="团体直播"].active { background-color: #ef9a9a; }
@@ -72,6 +74,9 @@
         .mobile-category-tabs .tab[data-target="回归日程"].active { background-color: #6fc3f7; }
         .mobile-category-tabs .tab[data-target="猫言猫语"] { background-color: #ab47bc; }
         .mobile-category-tabs .tab[data-target="猫言猫语"].active { background-color: #c26ed3; }
+        /* 新增：饲养员日记标签样式（温柔粉色系） */
+        .mobile-category-tabs .tab[data-target="饲养员日记"] { background-color: #FFB7C5; }
+        .mobile-category-tabs .tab[data-target="饲养员日记"].active { background-color: #FFCCD5; }
         
         /* PC端标签样式（补全新增子标签颜色） */
         .category-tabs .tab {
@@ -83,14 +88,17 @@
             color: #fff !important;
             display: inline-block;
         }
-        .category-tabs .tab[data-target="cha"] { background-color: #059669; }
-        .category-tabs .tab[data-target="cha"].active { background-color: #08a878; }
+        .category-tabs .tab[data-target="cha"] { background-color: #A895E7; }
+        .category-tabs .tab[data-target="cha"].active { background-color: #A895E7; }
         .category-tabs .tab[data-target="舞台"] { background-color: #ff6b8b; }
         .category-tabs .tab[data-target="舞台"].active { background-color: #ff8fa3; }
         .category-tabs .tab[data-target="综艺"] { background-color: #7e57c2; }
         .category-tabs .tab[data-target="综艺"].active { background-color: #9575cd; }
         .category-tabs .tab[data-target="直播"] { background-color: #ef5350; }
         .category-tabs .tab[data-target="直播"].active { background-color: #e57373; }
+        /* 新增：PC端饲养员日记标签样式 */
+        .category-tabs .tab[data-target="饲养员日记"] { background-color: #FFB7C5; }
+        .category-tabs .tab[data-target="饲养员日记"].active { background-color: #FFCCD5; }
 
         /* 下拉菜单样式 */
         .dropdown {
@@ -125,10 +133,11 @@
         /* 不同分类子标签激活色 */
         .pc-dropdown[data-target="打歌"] .subtab.active { color: #ff7d00 !important; }
         .pc-dropdown[data-target="物料"] .subtab.active { color: #66bb6a !important; }
-        .pc-dropdown[data-target="cha"] .subtab.active { color: #059669 !important; }
+        .pc-dropdown[data-target="cha"] .subtab.active { color: #A895E7 !important; }
         .pc-dropdown[data-target="舞台"] .subtab.active { color: #ff6b8b !important; }
         .pc-dropdown[data-target="综艺"] .subtab.active { color: #7e57c2 !important; }
         .pc-dropdown[data-target="直播"] .subtab.active { color: #ef5350 !important; }
+        /* 新增：饲养员日记无下拉，无需额外配置 */
         
         .mobile-dropdown .dropdown-content { top: 40px; left: 0; }
         .pc-dropdown .dropdown-content { top: 38px; left: 0; }
@@ -137,11 +146,35 @@
         .mobile-category-tabs::-webkit-scrollbar { display: none; }
         @media (min-width: 768px) { 
             .mobile-category-tabs { display: none !important; } 
-            .category-date-wrap { display: flex !important; }
+            .category-date-wrap { display: flex !important; align-items: center; gap: 15px; }
         }
         @media (max-width: 767px) { 
             .category-date-wrap { display: none !important; } 
             .mobile-category-tabs { display: flex !important; }
+        }
+
+        /* 统一的搜索框样式（放在分类标签和日历之间，PC/移动端通用） */
+        .search-container {
+            padding: 10px 15px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #eee;
+            margin: 0 0 10px 0; /* 和日历板块隔开一点 */
+        }
+        #scheduleSearchInput {
+            width: 100%;
+            max-width: 400px;
+            padding: 8px 12px;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            outline: none;
+            box-sizing: border-box;
+            display: block;
+            margin: 0 auto; /* 居中显示 */
+        }
+        #scheduleSearchInput:focus {
+            border-color: #b088c8;
+            box-shadow: 0 0 0 2px rgba(176, 136, 200, 0.2);
         }
 
         /* 图片预览弹窗样式 */
@@ -163,13 +196,22 @@
         #imgPreviewModal .next-btn { position: absolute; right: 20px; color: #fff; font-size: 48px; font-weight: bold; cursor: pointer; user-select: none; }
         #imgPreviewModal .close-btn:hover, #imgPreviewModal .prev-btn:hover, #imgPreviewModal .next-btn:hover { color: #ccc; }
         
-        /* 年份选择器样式（适配2025-2031） */
-        #yearSelect, #yearSelect-pc {
-            padding: 4px 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 14px;
-            min-width: 80px;
+        /* 年份/月份/日期选择器样式统一 */
+        #yearSelect, #yearSelect-pc, #monthSelect, #monthSelect-pc, #daySelect, #daySelect-pc {
+            padding: 8px 12px !important;
+            border: 1px solid #ddd !important;
+            border-radius: 8px !important;
+            font-size: 14px !important;
+            min-width: 90px !important;
+            box-sizing: border-box !important;
+        }
+
+        /* 行程隐藏类 */
+        .event-item.hidden {
+            display: none !important;
+        }
+        .event-card.hidden {
+            display: none !important;
         }
     </style>
 </head>
@@ -190,7 +232,18 @@
                 <option value="2031">2031年</option>
             </select>
             <select id="monthSelect">
-                <option value="" selected>未选择</option>
+                <option value="1">1月</option>
+                <option value="2">2月</option>
+                <option value="3" selected>3月</option>
+                <option value="4">4月</option>
+                <option value="5">5月</option>
+                <option value="6">6月</option>
+                <option value="7">7月</option>
+                <option value="8">8月</option>
+                <option value="9">9月</option>
+                <option value="10">10月</option>
+                <option value="11">11月</option>
+                <option value="12">12月</option>
             </select>
             <select id="daySelect">
                 <option value="" selected>未选择</option>
@@ -198,35 +251,7 @@
         </div>
     </div>
 
-    <div class="mobile-category-tabs">
-      <div class="tab active" data-target="全部动态">全部动态</div>
-      <!-- 舞台子标签（替换原有舞台主标签） -->
-      <div class="tab" data-target="其他演出">其他演出</div>
-      <div class="tab" data-target="颁奖典礼">颁奖典礼</div>
-      <div class="tab" data-target="演唱会">演唱会</div>
-      <!-- 打歌子标签（保留） -->
-      <div class="tab" data-target="打歌图/碎片">打歌图/碎片</div>
-      <div class="tab" data-target="打歌直拍">打歌直拍</div>
-      <!-- 综艺子标签（替换原有综艺主标签） -->
-      <div class="tab" data-target="团综">团综</div>
-      <div class="tab" data-target="外务">外务</div>
-      <!-- 物料子标签（保留） -->
-      <div class="tab" data-target="图片物料">图片物料</div>
-      <div class="tab" data-target="短物料">短物料</div>
-      <div class="tab" data-target="长物料">长物料</div>
-      <!-- cha子标签（保留） -->
-      <div class="tab" data-target="队内cha">队内cha</div>
-      <div class="tab" data-target="队外cha">队外cha</div>
-      <!-- 直播子标签（替换原有直播主标签） -->
-      <div class="tab" data-target="团体直播">团体直播</div>
-      <div class="tab" data-target="个人直播">个人直播</div>
-      <div class="tab" data-target="多人直播">多人直播</div>
-      <!-- 原有标签（保留） -->
-      <div class="tab" data-target="回归日程">回归日程</div>
-      <div class="tab" data-target="猫言猫语">猫言猫语</div>
-    </div>
-    
-    <!-- PC端分类+日期布局（新增舞台/综艺/直播下拉子标签） -->
+    <!-- PC端分类+日期布局（新增舞台/综艺/直播下拉子标签，打歌下拉新增小游戏） -->
     <div class="category-date-wrap">
         <div class="category-tabs">
             <div class="tab active" data-target="全部动态">全部动态</div>
@@ -239,12 +264,13 @@
                     <div class="subtab" data-target="演唱会">演唱会</div>
                 </div>
             </div>
-            <!-- 打歌下拉（保留） -->
+            <!-- 打歌下拉（新增打歌小游戏） -->
             <div class="dropdown pc-dropdown" data-target="打歌">
                 <div class="tab dropdown-btn" data-target="打歌">打歌</div>
                 <div class="dropdown-content">
                     <div class="subtab" data-target="打歌图/碎片">打歌图/碎片</div>
                     <div class="subtab" data-target="打歌直拍">打歌直拍</div>
+                    <div class="subtab" data-target="打歌小游戏">打歌小游戏</div>
                 </div>
             </div>
             <!-- 综艺下拉子标签 -->
@@ -284,6 +310,8 @@
             <!-- 原有标签（保留） -->
             <div class="tab" data-target="回归日程">回归日程</div>
             <div class="tab" data-target="猫言猫语">猫言猫语</div>
+            <!-- 新增：PC端饲养员日记标签 -->
+            <div class="tab" data-target="饲养员日记">饲养员日记</div>
         </div>
         <div class="date-selector-pc">
             <select id="yearSelect-pc">
@@ -296,7 +324,18 @@
                 <option value="2031">2031年</option>
             </select>
             <select id="monthSelect-pc">
-                <option value="" selected>未选择</option>
+                <option value="1">1月</option>
+                <option value="2">2月</option>
+                <option value="3" selected>3月</option>
+                <option value="4">4月</option>
+                <option value="5">5月</option>
+                <option value="6">6月</option>
+                <option value="7">7月</option>
+                <option value="8">8月</option>
+                <option value="9">9月</option>
+                <option value="10">10月</option>
+                <option value="11">11月</option>
+                <option value="12">12月</option>
             </select>
             <select id="daySelect-pc">
                 <option value="" selected>未选择</option>
@@ -304,9 +343,50 @@
         </div>
     </div>
 
+    <!-- 移动端分类标签 -->
+    <div class="mobile-category-tabs">
+      <div class="tab active" data-target="全部动态">全部动态</div>
+      <!-- 舞台子标签（替换原有舞台主标签） -->
+      <div class="tab" data-target="其他演出">其他演出</div>
+      <div class="tab" data-target="颁奖典礼">颁奖典礼</div>
+      <div class="tab" data-target="演唱会">演唱会</div>
+      <!-- 打歌子标签（新增打歌小游戏） -->
+      <div class="tab" data-target="打歌图/碎片">打歌图/碎片</div>
+      <div class="tab" data-target="打歌直拍">打歌直拍</div>
+      <div class="tab" data-target="打歌小游戏">打歌小游戏</div>
+      <!-- 综艺子标签（替换原有综艺主标签） -->
+      <div class="tab" data-target="团综">团综</div>
+      <div class="tab" data-target="外务">外务</div>
+      <!-- 物料子标签（保留） -->
+      <div class="tab" data-target="图片物料">图片物料</div>
+      <div class="tab" data-target="短物料">短物料</div>
+      <div class="tab" data-target="长物料">长物料</div>
+      <!-- cha子标签（保留） -->
+      <div class="tab" data-target="队内cha">队内cha</div>
+      <div class="tab" data-target="队外cha">队外cha</div>
+      <!-- 直播子标签（替换原有直播主标签） -->
+      <div class="tab" data-target="团体直播">团体直播</div>
+      <div class="tab" data-target="个人直播">个人直播</div>
+      <div class="tab" data-target="多人直播">多人直播</div>
+      <!-- 原有标签（保留） -->
+      <div class="tab" data-target="回归日程">回归日程</div>
+      <div class="tab" data-target="猫言猫语">猫言猫语</div>
+      <!-- 新增：移动端饲养员日记标签 -->
+      <div class="tab" data-target="饲养员日记">饲养员日记</div>
+    </div>
+
+    <!-- 搜索框：放在分类标签和日历之间（唯一的搜索框） -->
+    <div class="search-container">
+        <input 
+            type="text" 
+            id="scheduleSearchInput" 
+            placeholder="搜索行程内容（如：人歌、花絮、打歌）"
+        >
+    </div>
+
     <div class="calendar-nav" style="display: flex !important;">
         <button class="nav-btn" onclick="changeMonth(-1)">&lt;</button>
-        <div class="month-title">2026年</div>
+        <div class="month-title">2026年3月</div>
         <button class="nav-btn" onclick="changeMonth(1)">&gt;</button>
     </div>
 
@@ -322,13 +402,57 @@
 
     <div class="events-panel">
         <div class="events-header">
-            <h3 id="eventsDateTitle">2026年 · 全部动态</h3>
+            <h3 id="eventsDateTitle">2026年3月 · 全部动态</h3>
             <div class="close-events" onclick="closeEventsPanel()">×</div>
         </div>
         <div id="eventsList"></div>
     </div>
 
     <script src="script.js"></script>
+    <!-- 新增：搜索功能脚本 -->
+    <script>
+        // 等待页面和script.js加载完成后初始化搜索功能
+        document.addEventListener('DOMContentLoaded', function() {
+            // 1. 打开页面自动显示当前月份
+            const today = new Date();
+            const currentYear = today.getFullYear();
+            const currentMonth = today.getMonth() + 1; // 3月
+            
+            // 同步年份/月份选择框
+            document.getElementById('yearSelect').value = currentYear;
+            document.getElementById('yearSelect-pc').value = currentYear;
+            document.getElementById('monthSelect').value = currentMonth;
+            document.getElementById('monthSelect-pc').value = currentMonth;
+            
+            // 更新月份标题
+            document.querySelector('.month-title').textContent = `${currentYear}年${currentMonth}月`;
+            document.getElementById('eventsDateTitle').textContent = `${currentYear}年${currentMonth}月 · 全部动态`;
+
+            // 2. 修复搜索功能：只匹配行程卡片的主文本，不匹配日期和分类标签
+            const searchInput = document.getElementById('scheduleSearchInput');
+            
+            // 实时搜索筛选行程
+            searchInput.addEventListener('input', function() {
+                // 获取搜索关键词，转小写忽略大小写
+                const keyword = this.value.trim().toLowerCase();
+                // 只匹配行程卡片的主内容区域，避免匹配到日期或分类标签
+                const allEventCards = document.querySelectorAll('.event-card, .event-item');
+                
+                allEventCards.forEach(card => {
+                    // 找到行程卡片的主文本容器（通常是包含标题的那个div）
+                    const contentElement = card.querySelector('div:nth-child(2)') || card;
+                    const itemText = (contentElement.textContent || contentElement.innerText || '').toLowerCase();
+                    
+                    // 包含关键词显示，否则隐藏
+                    if (keyword === '' || itemText.includes(keyword)) {
+                        card.classList.remove('hidden');
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                });
+            });
+        });
+    </script>
     <div class="event-list-container" style="margin-top: 20px;"></div>
 </body>
 </html>
