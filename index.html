@@ -153,12 +153,16 @@
             .mobile-category-tabs { display: flex !important; }
         }
 
-        /* 统一的搜索框样式（放在分类标签和日历之间，PC/移动端通用） */
+        /* 搜索框+翻译插件 并排样式（核心修改） */
         .search-container {
+            display: flex; /* 弹性布局让搜索框和翻译并排 */
+            align-items: center; /* 垂直居中 */
+            justify-content: center; /* 整体居中 */
+            gap: 10px; /* 搜索框和翻译之间的间距 */
             padding: 10px 15px;
             background: #f8f9fa;
             border-bottom: 1px solid #eee;
-            margin: 0 0 10px 0; /* 和日历板块隔开一点 */
+            margin: 0 0 10px 0;
         }
         #scheduleSearchInput {
             width: 100%;
@@ -169,12 +173,35 @@
             border-radius: 20px;
             outline: none;
             box-sizing: border-box;
-            display: block;
-            margin: 0 auto; /* 居中显示 */
         }
         #scheduleSearchInput:focus {
             border-color: #b088c8;
             box-shadow: 0 0 0 2px rgba(176, 136, 200, 0.2);
+        }
+
+        /* 谷歌翻译插件样式（适配搜索框右侧） */
+        #google_translate_element {
+            display: inline-block;
+            vertical-align: middle;
+            z-index: 99;
+        }
+        .goog-te-gadget-simple {
+            background-color: #fff !important;
+            border: 1px solid #ddd !important;
+            border-radius: 20px !important;
+            padding: 4px 10px !important;
+            font-size: 12px !important;
+            line-height: 1.5 !important;
+        }
+        .goog-te-menu-value span {
+            color: #333 !important;
+        }
+        /* 隐藏翻译插件的顶部横幅 */
+        .goog-te-banner-frame {
+            display: none !important;
+        }
+        body {
+            top: 0 !important;
         }
 
         /* 图片预览弹窗样式 */
@@ -214,6 +241,18 @@
             display: none !important;
         }
     </style>
+    <!-- 谷歌翻译插件初始化 -->
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'zh-CN',
+                includedLanguages: 'zh-CN,en,ja,ko',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </head>
 <body>
     <div class="header">
@@ -251,11 +290,10 @@
         </div>
     </div>
 
-    <!-- PC端分类+日期布局（新增舞台/综艺/直播下拉子标签，打歌下拉新增小游戏） -->
+    <!-- PC端分类+日期布局 -->
     <div class="category-date-wrap">
         <div class="category-tabs">
             <div class="tab active" data-target="全部动态">全部动态</div>
-            <!-- 舞台下拉子标签 -->
             <div class="dropdown pc-dropdown" data-target="舞台">
                 <div class="tab dropdown-btn" data-target="舞台">舞台</div>
                 <div class="dropdown-content">
@@ -264,7 +302,6 @@
                     <div class="subtab" data-target="演唱会">演唱会</div>
                 </div>
             </div>
-            <!-- 打歌下拉（新增打歌小游戏） -->
             <div class="dropdown pc-dropdown" data-target="打歌">
                 <div class="tab dropdown-btn" data-target="打歌">打歌</div>
                 <div class="dropdown-content">
@@ -273,7 +310,6 @@
                     <div class="subtab" data-target="打歌小游戏">打歌小游戏</div>
                 </div>
             </div>
-            <!-- 综艺下拉子标签 -->
             <div class="dropdown pc-dropdown" data-target="综艺">
                 <div class="tab dropdown-btn" data-target="综艺">综艺</div>
                 <div class="dropdown-content">
@@ -281,7 +317,6 @@
                     <div class="subtab" data-target="外务">外务</div>
                 </div>
             </div>
-            <!-- 物料下拉（保留） -->
             <div class="dropdown pc-dropdown" data-target="物料">
                 <div class="tab dropdown-btn" data-target="物料">物料</div>
                 <div class="dropdown-content">
@@ -290,7 +325,6 @@
                     <div class="subtab" data-target="长物料">长物料</div>
                 </div>
             </div>
-            <!-- cha下拉（保留） -->
             <div class="dropdown pc-dropdown" data-target="cha">
                 <div class="tab dropdown-btn" data-target="cha">cha</div>
                 <div class="dropdown-content">
@@ -298,7 +332,6 @@
                     <div class="subtab" data-target="队外cha">队外cha</div>
                 </div>
             </div>
-            <!-- 直播下拉子标签 -->
             <div class="dropdown pc-dropdown" data-target="直播">
                 <div class="tab dropdown-btn" data-target="直播">直播</div>
                 <div class="dropdown-content">
@@ -307,10 +340,8 @@
                     <div class="subtab" data-target="多人直播">多人直播</div>
                 </div>
             </div>
-            <!-- 原有标签（保留） -->
             <div class="tab" data-target="回归日程">回归日程</div>
             <div class="tab" data-target="猫言猫语">猫言猫语</div>
-            <!-- 新增：PC端饲养员日记标签 -->
             <div class="tab" data-target="饲养员日记">饲养员日记</div>
         </div>
         <div class="date-selector-pc">
@@ -346,42 +377,36 @@
     <!-- 移动端分类标签 -->
     <div class="mobile-category-tabs">
       <div class="tab active" data-target="全部动态">全部动态</div>
-      <!-- 舞台子标签（替换原有舞台主标签） -->
       <div class="tab" data-target="其他演出">其他演出</div>
       <div class="tab" data-target="颁奖典礼">颁奖典礼</div>
       <div class="tab" data-target="演唱会">演唱会</div>
-      <!-- 打歌子标签（新增打歌小游戏） -->
       <div class="tab" data-target="打歌图/碎片">打歌图/碎片</div>
       <div class="tab" data-target="打歌直拍">打歌直拍</div>
       <div class="tab" data-target="打歌小游戏">打歌小游戏</div>
-      <!-- 综艺子标签（替换原有综艺主标签） -->
       <div class="tab" data-target="团综">团综</div>
       <div class="tab" data-target="外务">外务</div>
-      <!-- 物料子标签（保留） -->
       <div class="tab" data-target="图片物料">图片物料</div>
       <div class="tab" data-target="短物料">短物料</div>
       <div class="tab" data-target="长物料">长物料</div>
-      <!-- cha子标签（保留） -->
       <div class="tab" data-target="队内cha">队内cha</div>
       <div class="tab" data-target="队外cha">队外cha</div>
-      <!-- 直播子标签（替换原有直播主标签） -->
       <div class="tab" data-target="团体直播">团体直播</div>
       <div class="tab" data-target="个人直播">个人直播</div>
       <div class="tab" data-target="多人直播">多人直播</div>
-      <!-- 原有标签（保留） -->
       <div class="tab" data-target="回归日程">回归日程</div>
       <div class="tab" data-target="猫言猫语">猫言猫语</div>
-      <!-- 新增：移动端饲养员日记标签 -->
       <div class="tab" data-target="饲养员日记">饲养员日记</div>
     </div>
 
-    <!-- 搜索框：放在分类标签和日历之间（唯一的搜索框） -->
+    <!-- 搜索框 + 翻译插件（核心修改：翻译插件放在这里） -->
     <div class="search-container">
         <input 
             type="text" 
             id="scheduleSearchInput" 
             placeholder="搜索行程内容（如：人歌、花絮、打歌）"
         >
+        <!-- 翻译插件容器：搜索框右侧 -->
+        <div id="google_translate_element"></div>
     </div>
 
     <div class="calendar-nav" style="display: flex !important;">
@@ -409,41 +434,29 @@
     </div>
 
     <script src="script.js"></script>
-    <!-- 新增：搜索功能脚本 -->
     <script>
-        // 等待页面和script.js加载完成后初始化搜索功能
         document.addEventListener('DOMContentLoaded', function() {
-            // 1. 打开页面自动显示当前月份
             const today = new Date();
             const currentYear = today.getFullYear();
-            const currentMonth = today.getMonth() + 1; // 3月
+            const currentMonth = today.getMonth() + 1;
             
-            // 同步年份/月份选择框
             document.getElementById('yearSelect').value = currentYear;
             document.getElementById('yearSelect-pc').value = currentYear;
             document.getElementById('monthSelect').value = currentMonth;
             document.getElementById('monthSelect-pc').value = currentMonth;
             
-            // 更新月份标题
             document.querySelector('.month-title').textContent = `${currentYear}年${currentMonth}月`;
             document.getElementById('eventsDateTitle').textContent = `${currentYear}年${currentMonth}月 · 全部动态`;
 
-            // 2. 修复搜索功能：只匹配行程卡片的主文本，不匹配日期和分类标签
             const searchInput = document.getElementById('scheduleSearchInput');
-            
-            // 实时搜索筛选行程
             searchInput.addEventListener('input', function() {
-                // 获取搜索关键词，转小写忽略大小写
                 const keyword = this.value.trim().toLowerCase();
-                // 只匹配行程卡片的主内容区域，避免匹配到日期或分类标签
                 const allEventCards = document.querySelectorAll('.event-card, .event-item');
                 
                 allEventCards.forEach(card => {
-                    // 找到行程卡片的主文本容器（通常是包含标题的那个div）
                     const contentElement = card.querySelector('div:nth-child(2)') || card;
                     const itemText = (contentElement.textContent || contentElement.innerText || '').toLowerCase();
                     
-                    // 包含关键词显示，否则隐藏
                     if (keyword === '' || itemText.includes(keyword)) {
                         card.classList.remove('hidden');
                     } else {
