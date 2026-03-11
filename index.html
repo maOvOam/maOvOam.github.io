@@ -60,8 +60,8 @@
         /* cha子标签 */
         .mobile-category-tabs .tab[data-target="队内cha"] { background-color: #A895E7; }
         .mobile-category-tabs .tab[data-target="队内cha"].active { background-color: #A895E7; }
-        .mobile-category-tabs .tab[data-target="队外cha"] { background-color: #9370DB; }
-        .mobile-category-tabs .tab[data-target="队外cha"].active { background-color: #9370DB; }
+        .mobile-category-tabs .tab[data-target="队外cha"] { background-color: #7A5CB8; }
+        .mobile-category-tabs .tab[data-target="队外cha"].active { background-color: #7A5CB8; }
         /* 直播子标签（红色系） */
         .mobile-category-tabs .tab[data-target="团体直播"] { background-color: #e57373; }
         .mobile-category-tabs .tab[data-target="团体直播"].active { background-color: #ef9a9a; }
@@ -240,6 +240,68 @@
         .event-card.hidden {
             display: none !important;
         }
+
+        /* 核心新增：饲养员日记容器样式，默认隐藏 */
+        #diary-container {
+            display: none;
+            max-width: 700px; 
+            margin: 50px auto; 
+            padding: 0 20px;
+        }
+        /* 行程内容容器，默认显示 */
+        #schedule-container {
+            display: block;
+        }
+
+        /* 日历基础样式（保证行程条显示） */
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+            padding: 10px;
+        }
+        .day-cell {
+            aspect-ratio: 1;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+        }
+        .day-number {
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        .day-cell.today {
+            background-color: #fff8e1;
+            border-color: #ffc107;
+        }
+        .day-cell.empty {
+            border: none;
+        }
+        .event-tag {
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .events-panel {
+            margin-top: 20px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 10px;
+        }
+        .events-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .close-events {
+            cursor: pointer;
+            font-size: 20px;
+            color: #999;
+        }
     </style>
     <!-- 谷歌翻译插件初始化 -->
     <script type="text/javascript">
@@ -409,63 +471,102 @@
         <div id="google_translate_element"></div>
     </div>
 
-    <div class="calendar-nav" style="display: flex !important;">
-        <button class="nav-btn" onclick="changeMonth(-1)">&lt;</button>
-        <div class="month-title">2026年3月</div>
-        <button class="nav-btn" onclick="changeMonth(1)">&gt;</button>
-    </div>
-
-    <div class="calendar-grid" style="display: grid !important;">
-        <div class="weekday">日</div>
-        <div class="weekday">一</div>
-        <div class="weekday">二</div>
-        <div class="weekday">三</div>
-        <div class="weekday">四</div>
-        <div class="weekday">五</div>
-        <div class="weekday">六</div>
-    </div>
-
-    <div class="events-panel">
-        <div class="events-header">
-            <h3 id="eventsDateTitle">2026年3月 · 全部动态</h3>
-            <div class="close-events" onclick="closeEventsPanel()">×</div>
+    <!-- 行程内容容器（核心新增） -->
+    <div id="schedule-container">
+        <div class="calendar-nav" style="display: flex !important;">
+            <button class="nav-btn" onclick="changeMonth(-1)">&lt;</button>
+            <div class="month-title">2026年3月</div>
+            <button class="nav-btn" onclick="changeMonth(1)">&gt;</button>
         </div>
-        <div id="eventsList"></div>
+
+        <div class="calendar-grid" style="display: grid !important;">
+            <div class="weekday">日</div>
+            <div class="weekday">一</div>
+            <div class="weekday">二</div>
+            <div class="weekday">三</div>
+            <div class="weekday">四</div>
+            <div class="weekday">五</div>
+            <div class="weekday">六</div>
+        </div>
+
+        <div class="events-panel">
+            <div class="events-header">
+                <h3 id="eventsDateTitle">2026年3月 · 全部动态</h3>
+                <div class="close-events" onclick="closeEventsPanel()">×</div>
+            </div>
+            <div id="eventsList"></div>
+        </div>
+
+        <div class="event-list-container" style="margin-top: 20px;"></div>
     </div>
 
-    <script src="script.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const today = new Date();
-            const currentYear = today.getFullYear();
-            const currentMonth = today.getMonth() + 1;
-            
-            document.getElementById('yearSelect').value = currentYear;
-            document.getElementById('yearSelect-pc').value = currentYear;
-            document.getElementById('monthSelect').value = currentMonth;
-            document.getElementById('monthSelect-pc').value = currentMonth;
-            
-            document.querySelector('.month-title').textContent = `${currentYear}年${currentMonth}月`;
-            document.getElementById('eventsDateTitle').textContent = `${currentYear}年${currentMonth}月 · 全部动态`;
+    <!-- 饲养员日记容器（核心修改：套上唯一ID，默认隐藏） -->
+    <div id="diary-container">
+      <h2 style="color:#ff8da1;">🐾 饲养员日记 & 留言板</h2>
 
-            const searchInput = document.getElementById('scheduleSearchInput');
-            searchInput.addEventListener('input', function() {
-                const keyword = this.value.trim().toLowerCase();
-                const allEventCards = document.querySelectorAll('.event-card, .event-item');
-                
-                allEventCards.forEach(card => {
-                    const contentElement = card.querySelector('div:nth-child(2)') || card;
-                    const itemText = (contentElement.textContent || contentElement.innerText || '').toLowerCase();
-                    
-                    if (keyword === '' || itemText.includes(keyword)) {
-                        card.classList.remove('hidden');
-                    } else {
-                        card.classList.add('hidden');
-                    }
-                });
-            });
-        });
-    </script>
-    <div class="event-list-container" style="margin-top: 20px;"></div>
+      <!-- 留言表单 -->
+      <form action="https://formspree.io/f/mdawadqb" method="POST"
+        style="background:#fff; padding:20px; border-radius:12px; margin-bottom:30px;">
+        <p>留言会在下次上传物料时放进饲养员日记～</p>
+        <input
+          type="text"
+          name="name"
+          placeholder="你是哪位饲养员呀"
+          style="width:100%; padding:10px; margin:8px 0; border:1px solid #eee; border-radius:6px;"
+          required>
+        <textarea
+          name="message"
+          placeholder="分享自己眼中的鑫隆/一切鑫隆相关都可以~..."
+          rows="4"
+          style="width:100%; padding:10px; margin:8px 0; border:1px solid #eee; border-radius:6px;"
+          required></textarea>
+        <button
+          type="submit"
+          style="background:#ff8da1; color:white; border:none; padding:10px 20px; border-radius:6px; cursor:pointer;">
+          发送留言
+        </button>
+      </form>
+
+      <!-- 饲养员日记（你审核通过的留言就放这里） -->
+      <div style="border-top:1px solid #eee; padding-top:20px;">
+        <h3 style="margin-bottom:15px;">📝 日记·留言</h3>
+
+        <!-- 以后你审核通过的留言，就复制下面这个模板粘贴到这里 -->
+        <!--
+        <div style="background:#fdfbfc; padding:15px; border-radius:10px; margin:10px 0;">
+          <div style="font-weight: bold;">粉丝昵称</div>
+          <div style="margin:5px 0;">留言内容</div>
+          <div style="font-size:12px; color:#999;">2026-03-09</div>
+        </div>
+        -->
+      </div>
+    </div>
+        <!-- 引入你的 script.js -->
+   <script src="script.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const diary = document.getElementById('diary-container');
+
+  function checkActiveTab() {
+    const active = document.querySelector('.tab.active');
+    if (!active) return;
+    const target = active.getAttribute('data-target');
+
+    if (target === '饲养员日记') {
+      diary.style.display = 'block';
+    } else {
+      diary.style.display = 'none';
+    }
+  }
+
+  // 监听所有标签点击
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', function() {
+      setTimeout(checkActiveTab, 50);
+    });
+  });
+});
+</script>
 </body>
 </html>
