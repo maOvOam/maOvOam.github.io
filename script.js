@@ -22,7 +22,7 @@ function getTagBgColor(tag) {
     "短物料": { color: "#059669", text: "短物料" },
     "长物料": { color: "#065F46", text: "长物料" },
     "队内cha": { color: "#A895E7", text: "队内cha" },
-    "队外cha": { color: "#A895E7", text: "队外cha" },
+    "队外cha": { color: "rgb(168, 149, 231)", text: "队外cha" },
     "舞台": { color: "#ff6b8b", text: "舞台" },
     "综艺": { color: "#7e57c2", text: "综艺" },
     "直播": { color: "#ef5350", text: "直播" },
@@ -402,8 +402,19 @@ function bindCategoryTabEvent() {
     "舞台": ["其他演出","颁奖典礼","演唱会"],
     "综艺": ["团综","外务"],
     "直播": ["团体直播","个人直播","多人直播"],
+    "猫言猫语": ["猫言猫语"],
+    "饲养员日记": ["饲养员日记"],
+    "回归日程": ["回归日程"],
     "全部动态": ["打歌图/碎片","打歌直拍","打歌小游戏","图片物料","短物料","长物料","队内cha","队外cha","舞台","其他演出","颁奖典礼","演唱会","综艺","团综","外务","直播","团体直播","个人直播","多人直播","回归日程","猫言猫语","饲养员日记"]
   };
+
+  // 🌟 核心修复：视图切换逻辑（只隐藏/显示，不清空）
+  // 获取行程列表和留言板容器（请确认你的留言板ID是messageBoard，不是的话改这里）
+  const eventsListEl = document.getElementById('eventsList');
+  const messageBoardEl = document.getElementById('messageBoard');
+  
+  // 初始化隐藏留言板
+  if (messageBoardEl) messageBoardEl.style.display = 'none';
 
   document.querySelectorAll('.dropdown-btn').forEach(btn => {
     btn.onclick = e => {
@@ -415,6 +426,11 @@ function bindCategoryTabEvent() {
       document.querySelectorAll('.tab,.subtab').forEach(x => x.classList.remove('active'));
       btn.classList.add('active');
       activeCategory = btn.dataset.target.trim();
+      
+      // 显示行程列表，隐藏留言板
+      if (eventsListEl) eventsListEl.style.display = 'block';
+      if (messageBoardEl) messageBoardEl.style.display = 'none';
+      
       filterEventsByCategoryAndDate();
       filterEventsBySearch();
     };
@@ -428,17 +444,33 @@ function bindCategoryTabEvent() {
       const p = st.closest('.dropdown');
       if (p) p.querySelector('.dropdown-btn')?.classList.add('active');
       activeCategory = st.dataset.target.trim();
+      
+      // 显示行程列表，隐藏留言板
+      if (eventsListEl) eventsListEl.style.display = 'block';
+      if (messageBoardEl) messageBoardEl.style.display = 'none';
+      
       filterEventsByCategoryAndDate();
       filterEventsBySearch();
     };
   });
 
+  // 普通标签点击（包括饲养员日记）
   document.querySelectorAll('.tab:not(.dropdown-btn)').forEach(tab => {
     tab.onclick = () => {
       document.querySelectorAll('.dropdown-content').forEach(x => x.style.display = 'none');
       document.querySelectorAll('.tab,.subtab').forEach(x => x.classList.remove('active'));
       tab.classList.add('active');
       activeCategory = tab.dataset.target.trim();
+      
+      // 🌟 关键：只有点击饲养员日记才显示留言板，其他都显示行程
+      if (activeCategory === '饲养员日记') {
+        if (eventsListEl) eventsListEl.style.display = 'none';
+        if (messageBoardEl) messageBoardEl.style.display = 'block';
+      } else {
+        if (eventsListEl) eventsListEl.style.display = 'block';
+        if (messageBoardEl) messageBoardEl.style.display = 'none';
+      }
+      
       filterEventsByCategoryAndDate();
       filterEventsBySearch();
     };
@@ -513,7 +545,12 @@ function filterEventsBySearch() {
 function filterEventsByCategoryAndDate() {
   const listEl = document.getElementById('eventsList');
   if (!listEl) return;
-  listEl.innerHTML = '';
+  // 🌟 修复：只有非饲养员日记标签才清空/渲染行程，避免覆盖
+  if (activeCategory !== '饲养员日记') {
+    listEl.innerHTML = '';
+  } else {
+    return; // 饲养员日记标签下不处理行程列表
+  }
 
   const categoryMap = {
     "打歌": ["打歌图/碎片","打歌直拍","打歌小游戏"],
@@ -522,6 +559,9 @@ function filterEventsByCategoryAndDate() {
     "舞台": ["其他演出","颁奖典礼","演唱会"],
     "综艺": ["团综","外务"],
     "直播": ["团体直播","个人直播","多人直播"],
+    "猫言猫语": ["猫言猫语"],
+    "饲养员日记": ["饲养员日记"],
+    "回归日程": ["回归日程"],
     "全部动态": ["打歌图/碎片","打歌直拍","打歌小游戏","图片物料","短物料","长物料","队内cha","队外cha","舞台","其他演出","颁奖典礼","演唱会","综艺","团综","外务","直播","团体直播","个人直播","多人直播","回归日程","猫言猫语","饲养员日记"]
   };
 
@@ -618,9 +658,11 @@ function updateTitle() {
     "打歌": "打歌（打歌图/碎片+打歌直拍+打歌小游戏）",
     "物料": "物料（图片物料+短物料+长物料）",
     "cha": "cha（队内cha+队外cha）",
-    "舞台": "舞台（其他演出+颁奖典礼+演唱会）",
     "综艺": "综艺（团综+外务）",
-    "直播": "直播（团体直播+个人直播+多人直播）"
+    "直播": "直播（团体直播+个人直播+多人直播）",
+    "猫言猫语": "猫言猫语",
+    "饲养员日记": "饲养员日记",
+    "回归日程": "回归日程"
   };
   const categoryText = categoryAlias[activeCategory] || activeCategory;
   
@@ -640,9 +682,9 @@ function openDetail(dateStr) {
     titleEl.textContent = `${year}年${month}月${day}日 ${weekDay} · ${activeCategory}`;
   }
 
-  // 渲染行程列表
+  // 渲染行程列表（仅非饲养员日记标签）
   const listEl = document.getElementById('eventsList');
-  if (!listEl) return;
+  if (!listEl || activeCategory === '饲养员日记') return;
   
   if (Object.keys(events).length === 0) {
     listEl.innerHTML = '<div style="text-align:center;padding:30px;color:#999;">暂无行程</div>';
