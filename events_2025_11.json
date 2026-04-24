@@ -1,132 +1,379 @@
 {
-  "2026-01-01": [
-    {
-      "tag": "队内cha",
-      "title": "官号-低脂小视频-诡异的原地跑",
-      "time": "13:00",
-      "image":"20260201cha346.jpg",
-      "link": "https://v.douyin.com/isu5ZQcoNa8/"
-    }
-  ],
-  "2026-01-02": [
-    {
-      "tag": "猫言猫语",
-      "title": "QQ音乐EUPHORIA专辑空降评论区",
-      "time": "11:30",
-      "image":[
-         "20260202QQ.jpg",
-         "20260202QQ1.jpg",
-         "20260202QQ2.jpg",
-         "20260202QQ3.jpg",
-         "20260202QQ4.jpg",
-         "20260202QQ5.jpg",
-         "20260202QQ6.jpg",
-         "20260202QQ7.jpg",
-         "20260202QQ8.jpg"
-      ],
-      "link": "https://weibo.com/2392064074/5261958074076335"
-    }
-  ],
-  "2026-01-03": [
+  "2025-11-01": [
     {
       "tag": "短物料",
-      "title": "エルガールig-日本Elle girl采访-喜欢的part+魅力点+有自信的pose",
-      "time": "13:30",
-      "image": "20260203Ellegirl.jpg",
-      "link": "https://b23.tv/VyYgTU5"
-    }
-  ],
-  "2026-01-04": [
+      "title": "官号-我们玩得超开心的对吧😆-低脂小视频",
+      "time": "13:00",
+      "image":"20251101tiktok.jpg",
+      "link": "https://v.douyin.com/XdBehBbp3Rk/"
+    },
     {
-      "tag": "打歌图/碎片",
-      "title": "冠军秀推-第三周主打合照",
-      "time": "15:17",
-      "image": [
-        "20260204champion1.jpg",
-        "20260204champion2.jpg"
-      ],
-      "link": "https://weibo.com/2392064074/5262629582934953"
-    }
-  ],
-  "2026-01-05": [
+      "tag": "团体直播",
+      "title": "官号ig直播-公布粉丝名和队长-喝了假酒的猫",
+      "time": "19:00",
+      "image":"20251101ig.jpg",
+      "link": "https://b23.tv/tpv1St3"
+    },
     {
       "tag": "猫言猫语",
-      "title": "MUPLY_PLAYLIST推-沉默的爱豆抽奖拍立得实物-梦游中",
-      "time": "00:15",
+      "title": "团pc-撒隆嘿",
+      "time": "20:10",
+      "image":"20251101pc.jpg",
+      "link": "https://weibo.com/2392064074/5228270838614571"
+    }
+  ],
+  "2025-11-02": [
+    {
+      "tag": "短物料",
+      "title": "官号-发了狠忘了情",
+      "time": "13:00",
+      "image":"20251102tiktok1.jpg",
+      "link": "https://v.douyin.com/cGMPz1AVttA/"
+    },
+    {
+      "tag": "短物料",
+      "title": "官号-𝙄𝙛 𝙄 𝙝𝙖𝙙 𝙤𝙣𝙚 𝙬𝙞𝙨𝙝⋰˚★",
+      "time": "17:00",
+      "image":"20251102tiktok2.jpg",
+      "link": "https://v.douyin.com/YkbsV-YaMpE/"
+    }
+  ],
+  "2025-11-03": [
+    {
+      "tag": "图片物料",
+      "title": "团pc-ODF团综EP1-2幕后花絮照",
+      "time": "13:00",
       "image": [
-        "20260205chenmodeaidoupailide.jpg",
-        "20260117chenmodeaidouchoujiang.jpg"
+        "20251103pc1.jpg",
+        "20251103pc2.jpg",
+        "20251103pc3.jpg",
+        "20251103pc4.jpg"
+      ],
+      "link": "https://weibo.com/2392064074/5228885694483159"
+    },
+    {
+      "tag": "猫言猫语",
+      "title": "官号ig-和ALD1🌟ALWAYS 在一起♡♡",
+      "time": "17:30",
+      "image": "20251103ig.jpg",
+      "link": "https://weibo.com/2392064074/5228951448586342"
+    }
+  ],
+  "2025-11-04": [
+    
+  ],
+  "2025-11-05": [
+    {
+      "tag": "猫言猫语",
+      "title": "官号ig-ASMR-我会一直成为ALLYZ的力量的",
+      "time": "17:00",
+      "image": "20251104ig.jpg",
+      "link": "https://weibo.com/2392064074/5229671341100417"
+    },
+    {
+      "tag": "图片物料",
+      "title": "官号ig-ALPHA (D:) > ALD1og > Behind",
+      "time": "17:20",
+      "image": [
+        "20251105ig1.jpg",
+        "20251105ig2.jpg",
+        "20251105ig3.jpg",
+        "20251105ig4.jpg",
+        "20251105ig5.jpg",
+        "20251105ig6.jpg"
       ],
       "link": "https://weibo.com/2392064074/5262939833763809"
-    }
-  ],
-  "2026-01-06": [
+    },
     {
       "tag": "图片物料",
-      "title": "ELLEMEN新青年微博-杂志单封配置-中卡背真鑫换真金",
-      "time": "13:14",
-      "image": "20260206ellemen.jpg",
-      "link": "https://weibo.com/2392064074/5263322513413223"
+      "title": "官号微博-ODF团综EP1-4花絮照",
+      "time": "20:25",
+      "image": [
+        "20251105wb1.jpg",
+        "20251105wb2.jpg"
+      ],
+      "link": "https://weibo.com/9093327140/5230080869798948"
     }
   ],
-  "2026-01-07": [
+  "2025-11-06": [
+    {
+      "tag": "团综",
+      "title": "ODF EP4-谁是卧底",
+      "time": "20:00",
+      "image": "20251106bilibili.jpg",
+      "link": "https://b23.tv/feBPMZu"
+    }
+  ],
+  "2025-11-07": [
+    {
+      "tag": "图片物料",
+      "title": "团pc-ODF团综EP3-4幕后花絮照",
+      "time": "13:00",
+      "image": [
+        "20251107pc1.jpg",
+        "20251107pc2.jpg",
+        "20251107pc3.jpg",
+        "20251107pc4.jpg"
+      ],
+      "link": "https://weibo.com/2392064074/5230336191497925"
+    }
+  ],
+  "2025-11-08": [
+    {
+      "tag": "队内cha",
+      "title": "官号-全员-🕺🕺🕺🕺🕺🕺🕺🕺",
+      "time": "17:00",
+      "image": "20251108tiktok.jpg",
+      "link": "https://v.douyin.com/CCMFw7xNKyk/"
+    }
+  ],
+  "2025-11-09": [
+    {
+      "tag": "猫言猫语",
+      "title": "猫推+微博-遇到你们这么好的人,给宇宙不解释✨",
+      "time": "17:39",
+      "image": "20251109X+wb.jpg",
+      "link": "https://weibo.com/9093327140/5231126291417806"
+    }
+  ],
+  "2025-11-10": [
+    
+  ],
+  "2025-11-11": [
+    {
+      "tag": "队内cha",
+      "title": "官号-35cha-久等了吧🤭✌️",
+      "time": "17:00",
+      "image": "20251111tiktok.jpg",
+      "link": " https://v.douyin.com/pvihFGHkuX8/"
+    },
+    {
+      "tag": "团综",
+      "title": "ALD1ary-宿舍公开#1",
+      "time": "20:00",
+      "image": "20251111bilibili.jpg",
+      "link": "https://b23.tv/bmSmHk2"
+    },
+    {
+      "tag": "图片物料",
+      "title": "官号ig-ALD1's HOUSE🌟-宿舍条约",
+      "time": "21:20",
+      "image": "20251111ig.jpg",
+      "link": "https://weibo.com/2392064074/5231928332519467"
+    }
+  ],
+  "2025-11-12": [
     {
       "tag": "短物料",
-      "title": "ELLEMEN新青年微博-预告",
-      "time": "13:14",
-      "image": "20260207ellemen.jpg",
-      "link": "https://weibo.com/2392064074/5263684981232152"
-    }
-  ],
-  "2026-01-08": [
+      "title": "官号-给韩国高考生加油",
+      "time": "13:00",
+      "image": "20251112ald1.jpg",
+      "link": "https://weibo.com/2392064074/5232154330008557"
+    },
     {
-      "tag": "猫言猫语",
-      "title": "粉丝推-ALLYZ百日人歌应援手写卡",
-      "time": "13:30",
-      "image": [
-        "20260208allyz100renge1.jpg",
-        "20260208allyz100renge2.jpg",
-        "20260208allyz100renge3.jpg"
-      ],
-      "link": "https://weibo.com/2392064074/5264044441472888"
+      "tag": "队内cha",
+      "title": "官号-1237cha-跳完你的跳你的!-高雅人士企鹅舞",
+      "time": "18:00",
+      "image": "20251112tiktok.jpg",
+      "link": "https://v.douyin.com/cbe0rD-nuJE/"
     }
   ],
-  "2026-01-09": [
+  "2025-11-13": [
     {
-      "tag": "猫言猫语",
-      "title": "郑相炫推-没想到会和哥哥们变得这么亲近，真的很开心很幸福",
-      "time": "10:22",
-      "image": [
-        "20260209sanghyeon1.jpg",
-        "20260209sanghyeon.jpg"
-      ],
-      "link": ""
-    }
-  ],
-  "2026-01-10": [
+      "tag": "短物料",
+      "title": "官号-抽象视频",
+      "time": "18:16",
+      "image": "20251113tiktok.jpg",
+      "link": "https://v.douyin.com/xut6wSg5a5s/"
+    },
+    {
+      "tag": "物料",
+      "title": "ALD1ary-今天我是小厨神👨‍🍳",
+      "time": "20:00",
+      "image": "20251113bilibili.jpg",
+      "link": "https://b23.tv/ff6d15B"
+    },
     {
       "tag": "图片物料",
-      "title": "ELLEMEN新青年微博-鑫隆“我期待ALD1被全世界认识的那一天”",
-      "time": "13:15",
-      "image": "20260210elle.jpg",
-      "link": "https://weibo.com/2392064074/5264790796633840"
-    }
-  ],
-  "2026-01-11": [
+      "title": "官号ig-抽象派",
+      "time": "21:00",
+      "image": "20251113ig.jpg",
+      "link": "https://weibo.com/2392064074/5232632830104038"
+    },
     {
       "tag": "图片物料",
-      "title": "CJENM的naver通稿×3-客套场面话",
-      "time": "13:02",
+      "title": "团pc-ALD1ary宿舍团综合照",
+      "time": "21:30",
       "image": [
-        "20260211cj1.jpg",
-        "20260211cj2.jpg",
-        "20260211cj3.jpg",
-        "20260211cj.jpg"
+        "20251113pc1.jpg",
+        "20251113pc2.jpg",
+        "20251113pc3.jpg"
       ],
-      "link": "https://weibo.com/2392064074/5265161487386799"
+      "link": "https://artist.mnetplus.world/main/stg/ald1/story/feed/6915f14a93700928e46a441b"
     }
   ],
-  "2026-01-12": [
+  "2025-11-14": [
+    {
+      "tag": "回归行程",
+      "title": "官号-方向盘预告",
+      "time": "17:00",
+      "image": "20251114tiktok.jpg",
+      "link": "https://v.douyin.com/Rgd4GWpl9tE/"
+    }
+  ],
+  "2025-11-15": [
+    {
+      "tag": "队内cha",
+      "title": "官号-37cha-恋爱频率",
+      "time": "16:00",
+      "image": "20251115tiktok.jpg",
+      "link": "https://v.douyin.com/AFP7vkhLQYs/"
+    },
+    {
+      "tag": "回归行程",
+      "title": "官号-中国平台入驻视频合集",
+      "time": "17:00",
+      "image": "20251115c.jpg",
+      "link": "https://weibo.com/2392064074/5233297414162309"
+    }
+  ],
+  "2025-11-16": [
+    
+  ],
+  "2025-11-17": [
+    {
+      "tag": "短物料",
+      "title": "官号微博-ALLYZ,大家好!我是贺鑫隆",
+      "time": "17:02",
+      "image": [
+        "20251117wb1.jpg",
+        "20251117wb2.jpg"
+      ],
+      "link": "https://weibo.com/9093327140/5234016223759684"
+    },
+    {
+      "tag": "短物料",
+      "title": "mnet_mama ig-预告",
+      "time": "未知",
+      "image": "20251117ig.jpg",
+      "link": "https://weibo.com/2392064074/5234020104538996"
+    }
+  ],
+  "2025-11-18": [
+    {
+      "tag": "回归行程",
+      "title": "官号ig-ALD1 BOX",
+      "time": "17:00",
+      "image": "20251118ig.jpg",
+      "link": "https://weibo.com/2392064074/5234386120479207"
+    },
+    {
+      "tag": "团综",
+      "title": "ODF EP5-运动天才贺小猫",
+      "time": "20:00",
+      "image": "20251118bilibili.jpg",
+      "link": "https://b23.tv/KsvR6xY"
+    }
+  ],
+  "2025-11-19": [
+    {
+      "tag": "回归日程",
+      "title": "官号-视觉海报",
+      "time": "17:02",
+      "image": "20251119wb.jpg",
+      "link": "https://weibo.com/9093327140/5234740828831863"
+    },
+    {
+      "tag": "猫言猫语",
+      "title": "官号pc-给俊抒的生日祝福",
+      "time": "23:00",
+      "image": "20251119pc.jpg",
+      "link": "https://weibo.com/2392064074/5235022044860088"
+    }
+  ],
+  "2025-11-20": [
+    {
+      "tag": "猫言猫语",
+      "title": "官号ig-俊抒哥要一直健康一直幸福",
+      "time": "17:00",
+      "image": "20251120ig.jpg",
+      "link": "https://weibo.com/2392064074/5235111466635159"
+    },
+    {
+      "tag": "团体直播",
+      "title": "官号油管-金俊抒生日直播",
+      "time": "18:00",
+      "image": "20251120bilibili.jpg",
+      "link": "https://b23.tv/l8ltQDr"
+    },
+    {
+      "tag": "短物料",
+      "title": "官号-团综ODF MT特辑花絮",
+      "time": "20:00",
+      "image": "20251120MT.jpg",
+      "link": "https://weibo.com/2392064074/5235149606487299"
+    },
+    {
+      "tag": "图片物料",
+      "title": "官推+微博-金俊抒生日直播合照",
+      "time": "20:40",
+      "image": [
+        "20251120X+wb1.jpg",
+        "20251120X+wb2.jpg",
+        "20251120X+wb3.jpg",
+        "20251120X+wb4.jpg"
+      ],
+      "link": "https://weibo.com/2392064074/5235160941594695"
+    }
+  ],
+  "2025-11-21": [
+    {
+      "tag": "代言",
+      "title": "BRINGGREEN ig-宣传照",
+      "time": "08:00",
+      "image": [
+        "20251121bringgreen1.jpg",
+        "20251121bringgreen2.jpg"
+      ],
+      "link": "https://weibo.com/2392064074/5235332767289531"
+    },
+    {
+      "tag": "代言",
+      "title": "Olive Young Magazine ig-鑫隆是最温柔体贴的人",
+      "time": "13:00",
+      "image": "20251121oliveyoung.jpg",
+      "link": "https://weibo.com/2392064074/5235437054200089"
+    },
+    {
+      "tag": "图片物料",
+      "title": "官号ig-MAMA倒计时D-7",
+      "time": "17:30",
+      "image": [
+        "20251121ig1.jpg",
+        "20251121ig2.jpg",
+        "20251121ig3.jpg"
+      ],
+      "link": "https://weibo.com/2392064074/5235478212118909"
+    },
+    {
+      "tag": "团综",
+      "title": "ODF EP6-功夫贺猫",
+      "time": "20:00",
+      "image": "20251121bilibili.jpg",
+      "link": "https://b23.tv/aZKSNdd"
+    },
+    {
+      "tag": "图片物料",
+      "title": "官推-ODF团综EP5-6合照",
+      "time": "20:45",
+      "image": [
+        "20251121wb1.jpg",
+        "20251121wb2.jpg"
+      ],
+      "link": "https://weibo.com/9093327140/5235521850179697"
+    }
+  ],
+  "2025-11-22": [
     {
       "tag": "物料",
       "title": "回归概念照第二弹公开",
@@ -135,97 +382,7 @@
       "link": "https://instagram.com/xxx"
     }
   ],
-  "2026-01-13": [
-    {
-      "tag": "物料",
-      "title": "回归概念照第二弹公开",
-      "time": "12:00",
-      "image": "https://picsum.photos/400/600?random=3",
-      "link": "https://instagram.com/xxx"
-    }
-  ],
-  "2026-01-14": [
-    {
-      "tag": "物料",
-      "title": "回归概念照第二弹公开",
-      "time": "12:00",
-      "image": "https://picsum.photos/400/600?random=3",
-      "link": "https://instagram.com/xxx"
-    }
-  ],
-  "2026-01-15": [
-    {
-      "tag": "物料",
-      "title": "回归概念照第二弹公开",
-      "time": "12:00",
-      "image": "https://picsum.photos/400/600?random=3",
-      "link": "https://instagram.com/xxx"
-    }
-  ],
-  "2026-01-16": [
-    {
-      "tag": "物料",
-      "title": "回归概念照第二弹公开",
-      "time": "12:00",
-      "image": "https://picsum.photos/400/600?random=3",
-      "link": "https://instagram.com/xxx"
-    }
-  ],
-  "2026-01-17": [
-    {
-      "tag": "物料",
-      "title": "回归概念照第二弹公开",
-      "time": "12:00",
-      "image": "https://picsum.photos/400/600?random=3",
-      "link": "https://instagram.com/xxx"
-    }
-  ],
-  "2026-01-18": [
-    {
-      "tag": "物料",
-      "title": "回归概念照第二弹公开",
-      "time": "12:00",
-      "image": "https://picsum.photos/400/600?random=3",
-      "link": "https://instagram.com/xxx"
-    }
-  ],
-  "2026-01-19": [
-    {
-      "tag": "物料",
-      "title": "回归概念照第二弹公开",
-      "time": "12:00",
-      "image": "https://picsum.photos/400/600?random=3",
-      "link": "https://instagram.com/xxx"
-    }
-  ],
-  "2026-01-20": [
-    {
-      "tag": "物料",
-      "title": "回归概念照第二弹公开",
-      "time": "12:00",
-      "image": "https://picsum.photos/400/600?random=3",
-      "link": "https://instagram.com/xxx"
-    }
-  ],
-  "2026-01-21": [
-    {
-      "tag": "物料",
-      "title": "回归概念照第二弹公开",
-      "time": "12:00",
-      "image": "https://picsum.photos/400/600?random=3",
-      "link": "https://instagram.com/xxx"
-    }
-  ],
-  "2026-01-22": [
-    {
-      "tag": "物料",
-      "title": "回归概念照第二弹公开",
-      "time": "12:00",
-      "image": "https://picsum.photos/400/600?random=3",
-      "link": "https://instagram.com/xxx"
-    }
-  ],
-  "2026-01-23": [
+  "2025-11-23": [
     {
       "tag": "物料",
       "title":"回归概念照第二弹公开",
@@ -234,7 +391,7 @@
       "link": "https://instagram.com/xxx"
     }
   ],
-  "2026-01-24": [
+  "2025-11-24": [
     {
       "tag": "物料",
       "title": "回归概念照第二弹公开",
@@ -243,7 +400,16 @@
       "link": "https://instagram.com/xxx"
     }
   ],
-  "2026-01-25": [
+  "2025-11-25": [
+    {
+      "tag": "团综",
+      "title": "ODF EP7-游戏黑洞深情演绎你是洋葱吗",
+      "time": "20:00",
+      "image": "20251125bilibili.jpg",
+      "link": "https://b23.tv/y5nvogP"
+    }
+  ],
+  "2025-11-26": [
     {
       "tag": "物料",
       "title": "回归概念照第二弹公开",
@@ -252,16 +418,7 @@
       "link": "https://instagram.com/xxx"
     }
   ],
-  "2026-01-26": [
-    {
-      "tag": "物料",
-      "title": "回归概念照第二弹公开",
-      "time": "12:00",
-      "image": "https://picsum.photos/400/600?random=3",
-      "link": "https://instagram.com/xxx"
-    }
-  ],
-  "2026-01-27": [
+  "2025-11-27": [
     {
       "tag": "物料",
       "title": "回归概念照第二弹公开",
