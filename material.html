@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>物料分类 | 贺鑫隆</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "微软雅黑", sans-serif;
+        }
+        body {
+            background: #f5f5f5;
+            padding: 50px 20px;
+        }
+        h1 {
+            font-size: 36px;
+            color: #222;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            flex-wrap: wrap;
+        }
+        .column {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .big-btn {
+            width: 260px;
+            height: 60px;
+            line-height: 60px;
+            text-align: center;
+            background: #222;
+            color: #fff;
+            font-size: 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 18px;
+        }
+        .big-btn:hover {
+            background: #555;
+            transform: scale(1.03);
+        }
+        .back-btn {
+            background: #ff8da1;
+            margin-top: 20px;
+        }
+
+        /* 弹窗公共样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-box {
+            background: #fff;
+            padding: 25px;
+            border-radius: 16px;
+            text-align: center;
+            max-width: 320px;
+            width: 90%;
+        }
+        .modal-box h3 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+        .sub-btn {
+            width: 220px;
+            height: 45px;
+            line-height: 45px;
+            border-radius: 8px;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 6px 0;
+            background: #f0f0f0;
+            color: #333;
+            transition: 0.3s;
+        }
+        .sub-btn:hover {
+            background: #ff8da1;
+            color: #fff;
+        }
+        .close-btn {
+            margin-top: 12px;
+            background: #ddd;
+        }
+    </style>
+</head>
+<body>
+    <h1>物料分类查看</h1>
+
+    <div class="container">
+        <!-- 左列 -->
+        <div class="column">
+            <div class="big-btn" onclick="openModal('modal1')">打歌</div>
+            <div class="big-btn" onclick="openModal('modal2')">大舞台</div>
+            <div class="big-btn" onclick="openModal('modal3')">综艺</div>
+            <div class="big-btn" onclick="openModal('modal6')">challenge</div>
+            <div class="big-btn" onclick="openModal('modal7')">直播</div>
+            <div class="big-btn" onclick="openModal('modal10')">猫言猫语</div>
+        </div>
+
+        <!-- 右列 -->
+        <div class="column">
+            <div class="big-btn" onclick="openModal('modal4')">视频物料</div>
+            <div class="big-btn" onclick="openModal('modal5')">图片物料</div>
+            <div class="big-btn" onclick="openModal('modal8')">行程</div>
+            <div class="big-btn" onclick="openModal('modal9')">商务</div>
+            <div class="big-btn" onclick="openModal('modal12')">宣传</div>
+            <div class="big-btn" onclick="openModal('modal11')">饲养员日记</div>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 30px;">
+        <a href="nav.html" class="big-btn back-btn" style="display: inline-block; text-decoration: none;">返回导航页</a>
+    </div>
+
+
+    <!-- 弹窗1 打歌 -->
+    <div class="modal" id="modal1">
+        <div class="modal-box">
+            <h3>打歌分类</h3>
+            <button class="sub-btn" onclick="jump('dagepai.html')">打歌直拍</button>
+            <button class="sub-btn" onclick="jump('dagezongyi.html')">打歌综艺</button>
+            <button class="sub-btn" onclick="jump('dageshipin.html')">打歌小视频</button>
+            <button class="sub-btn" onclick="jump('dagehuaxu.html')">打歌花絮</button>
+            <button class="sub-btn" onclick="jump('dagetu.html')">打歌图</button>
+            <button class="sub-btn close-btn" onclick="closeModal('modal1')">关闭</button>
+        </div>
+    </div>
+
+    <!-- 弹窗2 大舞台 -->
+    <div class="modal" id="modal2">
+        <div class="modal-box">
+            <h3>大舞台分类</h3>
+            <button class="sub-btn" onclick="jump('award.html')">颁奖典礼</button>
+            <button class="sub-btn" onclick="jump('school.html')">校庆</button>
+            <button class="sub-btn" onclick="jump('concert.html')">演唱会</button>
+            <button class="sub-btn" onclick="jump('activity-stage.html')">其他活动</button>
+            <button class="sub-btn close-btn" onclick="closeModal('modal2')">关闭</button>
+        </div>
+    </div>
+
+    <!-- 弹窗3 综艺 -->
+    <div class="modal" id="modal3">
+        <div class="modal-box">
+            <h3>综艺分类</h3>
+            <button class="sub-btn" onclick="jump('group-variety.html')">团体综艺</button>
+            <button class="sub-btn" onclick="jump('team-variety.html')">分队综艺</button>
+            <button class="sub-btn" onclick="jump('solo-variety.html')">个人综艺</button>
+            <button class="sub-btn" onclick="jump('variety-huaxu.html')">综艺花絮</button>
+            <button class="sub-btn close-btn" onclick="closeModal('modal3')">关闭</button>
+        </div>
+    </div>
+
+    <!-- 弹窗4 视频物料 -->
+    <div class="modal" id="modal4">
+        <div class="modal-box">
+            <h3>视频物料分类</h3>
+            <button class="sub-btn" onclick="jump('zongzong.html')">团综</button>
+            <button class="sub-btn" onclick="jump('vlog.html')">自制vlog</button>
+            <button class="sub-btn" onclick="jump('dorm.html')">宿舍生活</button>
+            <button class="sub-btn" onclick="jump('untitled.html')">Untitled系列</button>
+            <button class="sub-btn" onclick="jump('behind.html')">幕后花絮</button>
+            <button class="sub-btn" onclick="jump('radio.html')">电台及花絮</button>
+            <button class="sub-btn" onclick="jump('other-video.html')">其他视频</button>
+            <button class="sub-btn close-btn" onclick="closeModal('modal4')">关闭</button>
+        </div>
+    </div>
+
+    <!-- 弹窗5 图片物料 -->
+    <div class="modal" id="modal5">
+        <div class="modal-box">
+            <h3>图片物料分类</h3>
+            <button class="sub-btn" onclick="jump('life-img.html')">生活照</button>
+            <button class="sub-btn" onclick="jump('activity-img.html')">活动照</button>
+            <button class="sub-btn" onclick="jump('group-img.html')">常规合照</button>
+            <button class="sub-btn" onclick="jump('birthday-img.html')">生日照</button>
+            <button class="sub-btn close-btn" onclick="closeModal('modal5')">关闭</button>
+        </div>
+    </div>
+
+    <!-- 弹窗6 challenge -->
+    <div class="modal" id="modal6">
+        <div class="modal-box">
+            <h3>challenge分类</h3>
+            <button class="sub-btn" onclick="jump('solo-cha.html')">单人cha</button>
+            <button class="sub-btn" onclick="jump('out-cha.html')">队外cha</button>
+            <button class="sub-btn" onclick="jump('in-cha.html')">队内cha</button>
+            <button class="sub-btn" onclick="jump('all-cha.html')">全员cha</button>
+            <button class="sub-btn" onclick="jump('lowfat-video.html')">低脂小视频</button>
+            <button class="sub-btn close-btn" onclick="closeModal('modal6')">关闭</button>
+        </div>
+    </div>
+
+    <!-- 弹窗7 直播 -->
+    <div class="modal" id="modal7">
+        <div class="modal-box">
+            <h3>直播分类</h3>
+            <button class="sub-btn" onclick="jump('live-group.html')">团体直播</button>
+            <button class="sub-btn" onclick="jump('live-multi.html')">多人直播</button>
+            <button class="sub-btn" onclick="jump('live-solo.html')">个人直播</button>
+            <button class="sub-btn" onclick="jump('live-birthday.html')">生日直播</button>
+            <button class="sub-btn close-btn" onclick="closeModal('modal7')">关闭</button>
+        </div>
+    </div>
+
+    <!-- 弹窗8 行程 -->
+    <div class="modal" id="modal8">
+        <div class="modal-box">
+            <h3>行程分类</h3>
+            <button class="sub-btn" onclick="jump('schedule-return.html')">回归行程</button>
+            <button class="sub-btn" onclick="jump('schedule-preview.html')">活动预告</button>
+            <button class="sub-btn" onclick="jump('schedule-publish.html')">活动宣发</button>
+            <button class="sub-btn close-btn" onclick="closeModal('modal8')">关闭</button>
+        </div>
+    </div>
+
+    <!-- 弹窗9 商务 -->
+    <div class="modal" id="modal9">
+        <div class="modal-box">
+            <h3>商务分类</h3>
+            <button class="sub-btn" onclick="jump('brand-group.html')">团体代言</button>
+            <button class="sub-btn" onclick="jump('brand-solo.html')">个人代言</button>
+            <button class="sub-btn" onclick="jump('mag-group.html')">团体杂志</button>
+            <button class="sub-btn" onclick="jump('mag-solo.html')">个人杂志</button>
+            <button class="sub-btn close-btn" onclick="closeModal('modal9')">关闭</button>
+        </div>
+    </div>
+
+    <!-- 弹窗10 猫言猫语 -->
+    <div class="modal" id="modal10">
+        <div class="modal-box">
+            <h3>猫言猫语分类</h3>
+            <button class="sub-btn" onclick="jump('talk-self.html')">自言自语</button>
+            <button class="sub-btn" onclick="jump('talk-teammate.html')">对队友</button>
+            <button class="sub-btn" onclick="jump('talk-fan.html')">对铲屎官</button>
+            <button class="sub-btn close-btn" onclick="closeModal('modal10')">关闭</button>
+        </div>
+    </div>
+
+    <!-- 弹窗11 饲养员日记 -->
+    <div class="modal" id="modal11">
+        <div class="modal-box">
+            <h3>饲养员日记分类</h3>
+            <button class="sub-btn" onclick="jump('keeper-self.html')">饲养员观察手册</button>
+            <button class="sub-btn" onclick="jump('keeper-teammate.html')">队友观察手册</button>
+            <button class="sub-btn" onclick="jump('keeper-other.html')">其他人观察手册</button>
+            <button class="sub-btn close-btn" onclick="closeModal('modal11')">关闭</button>
+        </div>
+    </div>
+
+    <!-- 弹窗12 宣传 -->
+    <div class="modal" id="modal12">
+        <div class="modal-box">
+            <h3>宣传分类</h3>
+            <button class="sub-btn" onclick="jump('promo-app.html')">APP宣传</button>
+            <button class="sub-btn" onclick="jump('promo-event.html')">活动宣传</button>
+            <button class="sub-btn" onclick="jump('promo-ambassador.html')">大使</button>
+            <button class="sub-btn close-btn" onclick="closeModal('modal12')">关闭</button>
+        </div>
+    </div>
+
+
+    <script>
+        // 打开弹窗
+        function openModal(id){
+            document.getElementById(id).style.display = 'flex';
+        }
+        // 关闭弹窗
+        function closeModal(id){
+            document.getElementById(id).style.display = 'none';
+        }
+        // 跳转页面
+        function jump(url){
+            location.href = url;
+        }
+    </script>
+</body>
+</html>
