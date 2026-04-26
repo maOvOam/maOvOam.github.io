@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>贺鑫隆介绍</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "微软雅黑", sans-serif;
+        }
+        body {
+            background: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 70px;
+        }
+
+        .header-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 35px;
+        }
+
+        h1 {
+            font-size: 36px;
+            color: #222;
+            margin: 0;
+        }
+        .middle-text {
+            font-size: 14px;
+            color: #666;
+            opacity: 0.7;
+            margin: 4px 0;
+        }
+        .cat-btn {
+            width: 180px;
+            height: 45px;
+            line-height: 45px;
+            background: #ff8da1;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .cat-btn:hover {
+            background: #ff6b81;
+            transform: scale(1.03);
+        }
+
+        .nav-item {
+            width: 300px;
+            height: 65px;
+            line-height: 65px;
+            text-align: center;
+            background: #222;
+            color: #fff;
+            font-size: 19px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 35px;
+            text-decoration: none;
+            display: block;
+        }
+        .nav-item:hover {
+            background: #555;
+            transform: scale(1.03);
+        }
+
+        /* 选择弹窗样式 */
+        #selectModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-box {
+            background: #fff;
+            padding: 30px;
+            border-radius: 16px;
+            text-align: center;
+        }
+        .modal-box h3 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .modal-btn {
+            width: 200px;
+            height: 50px;
+            line-height: 50px;
+            border-radius: 10px;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 8px;
+            transition: 0.3s;
+        }
+        .btn-time {
+            background: #222;
+            color: #fff;
+        }
+        .btn-material {
+            background: #ff8da1;
+            color: #fff;
+        }
+        .btn-close {
+            margin-top: 15px;
+            background: #eee;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="header-group">
+        <h1>贺鑫隆介绍</h1>
+        <div class="middle-text">🐱maOvOam🐱</div>
+        <button class="cat-btn" onclick="window.open('https://qntwx.cn/ELH5F3','_blank')">📮 小猫投递员</button>
+    </div>
+
+    <div class="nav-item">练习生时期</div>
+    <div class="nav-item">BOYSTORY时期</div>
+    <div class="nav-item">boysⅡplanet时期</div>
+    <div class="nav-item" onclick="openSelectModal()">ALPHADRIVEONE时期</div>
+
+    <!-- 选择弹窗 -->
+    <div id="selectModal">
+        <div class="modal-box">
+            <h3>请选择查看方式</h3>
+            <button class="modal-btn btn-time" onclick="goTime()">按时间查看</button>
+            <br>
+            <button class="modal-btn btn-material" onclick="goMaterial()">按物料类型查看</button>
+            <br>
+            <button class="modal-btn btn-close" onclick="closeSelectModal()">取消</button>
+        </div>
+    </div>
+
+    <script>
+        function openSelectModal() {
+            document.getElementById('selectModal').style.display = 'flex';
+        }
+        function closeSelectModal() {
+            document.getElementById('selectModal').style.display = 'none';
+        }
+        // 按时间 → 原 index.html
+        function goTime() {
+            location.href = "index.html";
+        }
+        // 按物料 → 新建的 material.html
+        function goMaterial() {
+            location.href = "material.html";
+        }
+    </script>
+</body>
+</html>
