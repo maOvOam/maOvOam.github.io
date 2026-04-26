@@ -196,7 +196,7 @@
             id="scheduleSearchInput" 
             placeholder="搜索行程内容（如：人歌、花絮、打歌）"
             style="flex:1; padding:8px 12px; border-radius:8px; border:1px solid #eee; outline:none;">
-        <button onclick="openCatMail()" style="padding:8px 14px; background:#ff8da1; color:#fff; border:none; border-radius:8px; cursor:pointer;">🐾 小猫邮递员</button>
+        <button onclick="openCatMail()" style="padding:8px 14px; background:#ff8da1; color:#fff; border:none; border-radius:8px; cursor:pointer;">🐾 小猫观察手册</button>
     </div>
 
     <!-- 行程内容容器 -->
@@ -229,9 +229,9 @@
     <!-- 小猫邮递员 留言弹窗 -->
     <div id="catMail" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:9999; justify-content:center; align-items:center;">
         <div style="background:#fff; padding:30px; border-radius:16px; width:90%; max-width:500px;">
-            <h3 style="color:#ff8da1; margin:0 0 16px;">📮 小猫邮递员 · 留言</h3>
+            <h3 style="color:#ff8da1; margin:0 0 16px;">📮 小猫观察手册 · 留言</h3>
             <form action="https://formspree.io/f/mdawadqb" method="POST">
-                <textarea name="message" rows="4" placeholder="写下想对鑫隆说的话吧~ 我会在下一次更新时上传到饲养员日记里~" style="width:100%; padding:10px; border-radius:8px; border:1px solid #eee; margin-bottom:10px;" required></textarea>
+                <textarea name="message" rows="4" placeholder="可以分享一些你眼中的鑫隆~ 我会在下一次更新时上传到饲养员日记里" style="width:100%; padding:10px; border-radius:8px; border:1px solid #eee; margin-bottom:10px;" required></textarea>
                 <div style="display:flex; gap:10px; justify-content:flex-end;">
                     <button type="button" onclick="closeCatMail()" style="padding:8px 14px; border:1px solid #ddd; border-radius:8px; cursor:pointer;">取消</button>
                     <button type="submit" style="background:#ff8da1; color:#fff; border:none; padding:8px 14px; border-radius:8px; cursor:pointer;">发送留言</button>
